@@ -1,0 +1,57 @@
+﻿@model IEnumerable<sso.ViewModel.RoboExecucaoViewModel>
+
+@{
+    ViewBag.Title = "Robos";
+}
+
+<h2>Robos</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Sistema)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AppSetting)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Execucao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Desativacao)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sistema)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppSetting)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Execucao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Desativacao)
+            </td>
+            <td>
+                @Html.ActionLink("Executar", "ExecutarRobo", new { sistema = item.Sistema }) |
+                @Html.ActionLink("Configurações", "AppSettings", new { sistema = item.Sistema}) |
+            </td>
+        </tr>
+    }
+
+</table>

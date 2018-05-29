@@ -1,0 +1,35 @@
+﻿@model sso.ViewModel.UsuarioLoginSicaqViewModel
+
+@{
+    ViewBag.Title = "Menu";
+}
+
+<h2>Menu</h2>
+
+<div>
+    <h4>Menu</h4>
+    <hr />
+    <div class="row">
+        <div class="form-group">
+            <div class="col-lg-3">
+                <label>@Html.DisplayNameFor(model => model.convenio)</label>
+                @Html.DisplayFor(model => model.convenio)
+            </div>
+            <div class="col-lg-3">
+                <label>@Html.DisplayNameFor(model => model.login)</label>
+                @Html.DisplayFor(model => model.login)
+            </div>
+            <div class="col-lg-3">
+                <label>@Html.DisplayNameFor(model => model.password)</label>
+                @Html.DisplayFor(model => model.password)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <hr />
+    </div>
+    <div class="row">
+        @Html.ActionLink("Alteração Senha de Acesso", "AlteracaoSenha", null, new { @class = "btn btn-primary" })
+    </div>
+</div>
+

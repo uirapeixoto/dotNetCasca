@@ -1,0 +1,64 @@
+﻿@model sso.ViewModel.UsuarioLoginSicaqAlteracaoSenhaViewModel
+
+@{
+    ViewBag.Title = "Alteração Senha de Acesso";
+}
+
+<h2>Caixa Aqui</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    <h4 class="text-center table-bordered form-control panel-title">Alteração Senha de Acesso</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.AssinaturaAtual, htmlAttributes: new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            @Html.EditorFor(model => model.AssinaturaAtual, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.AssinaturaAtual, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.AssinaturaNova, htmlAttributes: new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            @Html.EditorFor(model => model.AssinaturaNova, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.AssinaturaNova, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ConfirmaAssinatura, htmlAttributes: new { @class = "control-label col-md-4" })
+        <div class="col-md-8">
+            @Html.EditorFor(model => model.ConfirmaAssinatura, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ConfirmaAssinatura, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-6 col-md-10">
+            <input type="submit" value="Confirmar" class="btn btn-azul btn-default btn-primary" />
+        </div>
+    </div>
+
+    <div class="form-group">
+
+        <div class="col-md-3">
+            Código do Convênio
+        </div>
+        <div class="col-md-3">
+            @Html.DisplayTextFor(model => model.convenio)
+        </div>
+        <div class="col-md-3">
+            Idendificação do Operador
+        </div>
+        <div class="col-md-8">
+            @Html.DisplayTextFor(model => model.login)
+        </div>
+    </div>
+</div>
+}
+

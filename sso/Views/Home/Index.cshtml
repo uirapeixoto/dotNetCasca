@@ -1,0 +1,120 @@
+﻿@model sso.Models.UsuarioLoginModel
+
+@{
+    ViewBag.Title = "Index";
+}
+<style>
+    .note.note-danger.note-shadow {
+        font-size: 0.93em;
+        color: rgb(169, 68, 66);
+        border-radius: 2px;
+        background-color: rgb(242, 222, 222);
+        box-shadow: 0px 2px 2.82px 0.18px rgba(0, 0, 0, 0.25);
+    }
+
+    .note.note-danger.note-shadow {
+        background-color: #f2dede;
+        border-color: #dca7b0;
+        box-shadow: 5px 5px rgba(222, 171, 179, 0.2);
+    }
+
+    .note.note-danger {
+        background-color: #f9f0f0;
+        border-color: #dca7b0;
+        color: #a94442, 80%;
+    }
+
+    .note {
+        margin: 0 0 20px 0;
+        padding: 15px 30px 15px 15px;
+        border-left: 5px solid #eee;
+        -webkit-border-radius: 0 4px 4px 0;
+        -moz-border-radius: 0 4px 4px 0;
+        -ms-border-radius: 0 4px 4px 0;
+        -o-border-radius: 0 4px 4px 0;
+        border-radius: 0 4px 4px 0;
+    }
+</style>
+@{
+    if (Model.RecadastrarSenha)
+    {
+        <div class="content">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                        </div>
+                        <div class="card-body">
+                            <form id="j_idt10" name="j_idt10" method="post" action="login.html" class="login-form" enctype="application/x-www-form-urlencoded">
+                                <input type="hidden" name="j_idt10" value="j_idt10">
+                                <h3 class="form-title" style="margin-top:0px;">Expiração de Senha</h3>
+                                <p>Deseja alterar sua senha neste momento?</p>
+                                <div class="form-actions">
+                                    <script type="text/javascript" src="./resources/jsf.js.xhtml"></script>
+                                    <a id="botaoVoltarLogin" href="javascript:top.location='/menu/'" class="btn login-button pull-left">Continuar Sem Alterar</a>
+                                    <a id="botaoLogin" href="javascript:top.location='/home/trocasenha'" class="btn login-button pull-right">Alterar senha</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        using (Html.BeginForm(null, null, FormMethod.Post, new { name = "loginForm", id = "loginForm" }))
+        {
+            @Html.AntiForgeryToken()
+
+            if (Model.UsuarioBloqueado)
+            {
+                <div class="note note-shadow note-danger error">
+                    <span tabindex="4">Este Código de Usuário foi suspenso temporariamente.<br /> Número de tentativas de acesso com senhas inválidas<br /> além do máximo permitido.</span>
+                    <button class="close" data-close="alert"></button>
+                </div>
+            }
+            <div class="form-horizontal">
+                <h4>Login</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.LabelFor(model => model.strUsuario)
+                        <input class="form-control text-box single-line" id="login" required name="strUsuario" type="text" value="">
+                        @Html.ValidationMessageFor(model => model.strUsuario, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.LabelFor(model => model.strSenha)
+                        <input class="form-control text-box single-line" id="senha" required maxlength="8" size="8" name="strSenha" type="text" value="">
+                        @Html.ValidationMessageFor(model => model.strSenha, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.HiddenFor(model => model.RecadastrarSenha)
+                </div>
+
+                <div class="form-actions">
+
+                </div>
+
+                <div class="form-actions">
+                    <div class="col-md-3">
+                        <a tabindex="8" id="botaoVoltarLogin" href="/home/revalidarsenha" class="btn-link pull-left">Revalidar senha</a>
+                        <input type="submit" id="botaoLogin" value="Enviar" class="btn btn-default btn-primary pull-right" />
+                        <input tabindex="-1" type="HIDDEN" id="strPut" name="strPut" value="05267FDFE4533B5ADEA48C4C1F2F966C">
+                        <input tabindex="-1" type="HIDDEN" id="strPush" name="strPush" value="12DACE6B449B550E5EE8FE74372978C7">
+                    </div>
+                    <div class="col-md-9"><p>&emsp;</p></div>
+                </div>
+            </div>
+        }
+    }
+}
+
+

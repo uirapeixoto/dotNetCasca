@@ -1,0 +1,68 @@
+﻿@model IEnumerable<sso.Models.UsuarioLoginModel>
+
+@{
+    ViewBag.Title = "Menu";
+}
+
+<h2>Menu</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.strUsuario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.strSenha)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Convenio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataExecucao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataDesativacao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PropostaUF)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sistema)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Responsavel)
+        </th>
+        <th>Editar</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.strUsuario)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.strSenha)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Convenio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataExecucao)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataDesativacao)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PropostaUF)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sistema)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Responsavel)
+        </td>
+        <td>@Html.ActionLink(" Editar ", "Edit", new { Id = item.Id }, new { @class = "glyphicon glyphicon-edit" })</td>
+    </tr>
+}
+
+</table>

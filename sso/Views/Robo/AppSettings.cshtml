@@ -1,0 +1,44 @@
+﻿@model IEnumerable<sso.ViewModel.xmlAppSettingsModel>
+
+@{
+    ViewBag.Title = "AppSettings";
+}
+
+<h2>AppSettings</h2>
+
+<p>
+    
+</p>
+<table class="table table-hover table-responsive">
+    <tr>
+        <th width="10%">
+            @Html.DisplayNameFor(model => model.key)
+        </th>
+        <th width="70%">
+            @Html.DisplayNameFor(model => model.Value)
+        </th>
+        <th width="30%"></th>
+    </tr>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.key)
+        </td>
+        <td>
+            @{ if (!string.IsNullOrEmpty(item.Value))
+                {
+                    foreach (var mail in item.Value.Split(';'))
+                    {
+            <span>@mail</span><br />
+                    }
+                }
+            }
+            
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditSettings", new { key=item.key }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+</table>
