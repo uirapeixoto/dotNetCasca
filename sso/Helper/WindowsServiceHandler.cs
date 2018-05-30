@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.ServiceProcess;
 
 namespace sso.Helper
@@ -61,6 +62,24 @@ namespace sso.Helper
                 throw ex;
             }
         }
+
+        public static void StartServiceByName(string serviceName)
+        {
+            ServiceController serviceController = new ServiceController(serviceName);
+            try
+            {
+                serviceController.MachineName = ConfigurationManager.AppSettings["ServerName"]; //this is my computer name "dt-corp-pms-04";
+                serviceController.ServiceName = ConfigurationManager.AppSettings["ServiceName"]; //This is my Service name"Service1";
+                serviceController.Start();
+            }
+            catch (Exception ex)
+            {
+                if (serviceController.Status == ServiceControllerStatus.Running)
+                    serviceController.Stop();
+            }
+
+        }
+
 
     }
 }
