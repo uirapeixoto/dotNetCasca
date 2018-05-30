@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace sso.ViewModel
 {
@@ -14,7 +16,15 @@ namespace sso.ViewModel
         [Display(Name = "Data/hora da Desativação")]
         public DateTime? Desativacao { get; set; }
         [Display(Name = "Sistema")]
-        public string Sistema { get; internal set; }
-        
+        public string Sistema { get; set; }
+        public IEnumerable<SelectListItem> UsuariosLoginSelect { get; set; }
+
+        public string Operador { get; set; }
+
+        public RoboExecucaoViewModel()
+        {
+            this.UsuariosLoginSelect = new List<SelectListItem> { new SelectListItem { Selected = true, Text = "Selecione", Value = "" } };
+        }
+
     }
 }

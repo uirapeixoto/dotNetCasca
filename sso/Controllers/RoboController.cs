@@ -93,7 +93,8 @@ namespace sso.Controllers
 
         public ActionResult ExecutarRobo(string sistema)
         {
-            DateTime agora = DateTime.Now;
+            var agora = DateTime.Now;
+            var db = new RoboContext();
 
             if (!int.TryParse(XmlHandler.ConsultarNoXml("hora").Value, out int _hora))
             {
@@ -109,14 +110,25 @@ namespace sso.Controllers
             }
 
             DateTime horaExecucao = new DateTime(agora.Year, agora.Month, agora.Day, _hora, _minutos, _segundos);
-            
+
             var result = new RoboExecucaoViewModel
             {
                 Nome = string.Format("Movix.{0}.AlteracaoSenha.Service", sistema),
                 Execucao = horaExecucao,
-                Desativacao  = horaExecucao,
-                AppSetting = string.Format("robo{0}Settings",sistema)
+                Desativacao = horaExecucao,
+                AppSetting = string.Format("robo{0}Settings", sistema),
+                Sistema = sistema
             };
+            
+            result.UsuariosLoginSelect = db.TB_LOGIN_ROBO.AsNoTracking()
+                .Where(e => e.DS_SISTEMA == sistema)
+                .AsParallel()
+                .Select(t => new SelectListItem
+                {
+                    Value = t.CO_SEQ_USUARIO.ToString(),
+                    Text = string.Format("{0} - {1}", t.DS_NOME, t.DS_PROPOSTA_UF),
+                    Selected = false
+                });
 
             return View(result);
         }
@@ -124,18 +136,17 @@ namespace sso.Controllers
         [HttpPost]
         public ActionResult ExecutarRobo(RoboExecucaoViewModel roboExecucao)
         {
-            using (var db = new RoboContext())
+            try
             {
-                var registro = db.TB_LOGIN_ROBO.Where(t => t.CO_SEQ_USUARIO == usuario.Id).SingleOrDefault();
-                registro.DS_SENHA = usuario.strSenha;
-                registro.DT_DESATIVACAO = usuario.DataDesativacao;
-                db.Entry(registro).State = EntityState.Modified;
-                db.SaveChanges();
-            }
 
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
             return View();
         }
-
         
     }
 }
