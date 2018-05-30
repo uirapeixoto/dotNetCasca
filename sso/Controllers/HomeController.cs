@@ -135,14 +135,22 @@ namespace sso.Controllers
         [HttpPost]
         public ActionResult Edit(UsuarioLoginModel usuario)
         {
-            using (var db = new RoboContext())
+            try
             {
-                var registro = db.TB_LOGIN_ROBO.Where(t => t.CO_SEQ_USUARIO == usuario.Id).SingleOrDefault();
-                registro.DS_SENHA = usuario.strSenha;
-                registro.DT_DESATIVACAO = usuario.DataDesativacao;
-                db.Entry(registro).State = EntityState.Modified;
-                db.SaveChanges();
+                using (var db = new RoboContext())
+                {
+                    var registro = db.TB_LOGIN_ROBO.Find(usuario.Id);
+                    registro.DS_SENHA = usuario.strSenha;
+                    registro.DT_DESATIVACAO = usuario.DataDesativacao;
+                    db.Entry(registro).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
             }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
+            
             return RedirectToAction("Menu");
         }
 

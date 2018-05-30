@@ -17,9 +17,9 @@ namespace sso.Controllers
     {
         public readonly RoboContext _context;
 
-        public RoboController(RoboContext context)
+        public RoboController()
         {
-            _context = context;
+            _context = new RoboContext();
         }
         // GET: Robo
         public ActionResult Index()
@@ -149,7 +149,7 @@ namespace sso.Controllers
                 var registro = _context.TB_LOGIN_ROBO.Find(roboExecucao.UsuarioId);
                 if(registro != null)
                 {
-                    registro.DT_DESATIVACAO = roboExecucao.Desativacao.Value.AddSeconds(-5);
+                    registro.DT_DESATIVACAO = roboExecucao.Desativacao.Value.AddSeconds(-10);
                     _context.Entry(registro).State = EntityState.Modified;
                     _context.SaveChanges();
 
@@ -157,7 +157,7 @@ namespace sso.Controllers
                     XmlHandler.EditarChaveValorArquivoConfiguracao("minutos", roboExecucao.Desativacao.Value.Minute.ToString(), roboExecucao.AppSetting);
                     XmlHandler.EditarChaveValorArquivoConfiguracao("segundos", roboExecucao.Desativacao.Value.Second.ToString(), roboExecucao.AppSetting);
 
-                    WindowsServiceHandler.RestartService("Movix.{0}.AlteracaoSenha.Service", 1000);
+                    WindowsServiceHandler.RestartService("Movix.{0}.AlteracaoSenha.Service", 5000);
                 }
                
             }
