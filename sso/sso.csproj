@@ -59,6 +59,7 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -162,6 +163,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\WindowsServiceHandler.cs" />
     <Compile Include="Helper\XmlHandler.cs" />
     <Compile Include="Models\Data\RoboContext.cs" />
     <Compile Include="Models\Data\TB_LOGIN_ROBO.cs" />

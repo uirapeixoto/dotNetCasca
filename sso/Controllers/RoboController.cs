@@ -9,11 +9,18 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Xml.Linq;
+using System.Data.Entity;
 
 namespace sso.Controllers
 {
     public class RoboController : Controller
     {
+        public readonly RoboContext _context;
+
+        public RoboController(RoboContext context)
+        {
+            _context = context;
+        }
         // GET: Robo
         public ActionResult Index()
         {
@@ -138,14 +145,28 @@ namespace sso.Controllers
         {
             try
             {
+                //atualizar o banco de dados com a nova data de desativação do usuario
+                var registro = _context.TB_LOGIN_ROBO.Find(roboExecucao.UsuarioId);
+                if(registro != null)
+                {
+                    registro.DT_DESATIVACAO = roboExecucao.Desativacao.Value.AddSeconds(-5);
+                    _context.Entry(registro).State = EntityState.Modified;
+                    _context.SaveChanges();
 
+                    XmlHandler.EditarChaveValorArquivoConfiguracao("hora", roboExecucao.Desativacao.Value.Hour.ToString(), roboExecucao.AppSetting);
+                    XmlHandler.EditarChaveValorArquivoConfiguracao("minutos", roboExecucao.Desativacao.Value.Minute.ToString(), roboExecucao.AppSetting);
+                    XmlHandler.EditarChaveValorArquivoConfiguracao("segundos", roboExecucao.Desativacao.Value.Second.ToString(), roboExecucao.AppSetting);
+
+                    WindowsServiceHandler.RestartService("Movix.{0}.AlteracaoSenha.Service", 1000);
+                }
+               
             }
             catch (Exception ex)
             {
 
                 throw;
             }
-            return View();
+            return RedirectToAction("Robos");
         }
         
     }

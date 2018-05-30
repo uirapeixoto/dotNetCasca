@@ -19,7 +19,7 @@ namespace sso.ViewModel
         public string Sistema { get; set; }
         public IEnumerable<SelectListItem> UsuariosLoginSelect { get; set; }
 
-        public string Operador { get; set; }
+        public int UsuarioId { get; set; }
 
         public RoboExecucaoViewModel()
         {
