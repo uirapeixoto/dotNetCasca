@@ -3,6 +3,7 @@ using sso.Models.Data;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -98,6 +99,7 @@ namespace sso.Controllers
                     Convenio = t.DS_CONVENIO,
                     PropostaUF = t.DS_PROPOSTA_UF,
                     Sistema = t.DS_SISTEMA,
+                    Responsavel = t.DS_RESPONSAVEL,
                     DataDesativacao = t.DT_DESATIVACAO,
                     DataExecucao = t.DT_EXECUCAO
                 }).OrderBy(s => s.Sistema).ToList();
@@ -135,14 +137,33 @@ namespace sso.Controllers
         [HttpPost]
         public ActionResult Edit(UsuarioLoginModel usuario)
         {
-            using (var db = new RoboContext())
+            try
             {
-                var registro = db.TB_LOGIN_ROBO.Where(t => t.CO_SEQ_USUARIO == usuario.Id).SingleOrDefault();
-                registro.DS_SENHA = usuario.strSenha;
-                registro.DT_DESATIVACAO = usuario.DataDesativacao;
-                db.Entry(registro).State = EntityState.Modified;
-                db.SaveChanges();
+                using (var db = new RoboContext())
+                {
+                    var registro = db.TB_LOGIN_ROBO.Where(t => t.CO_SEQ_USUARIO == usuario.Id).SingleOrDefault();
+                    registro.DS_SENHA = usuario.strSenha;
+                    registro.DT_DESATIVACAO = usuario.DataDesativacao;
+                    db.Entry(registro).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
             }
+            catch (DbEntityValidationException e)
+            {
+                IList<string> errorList = new List<string>();
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    errorList.Add(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State));
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        errorList.Add(string.Format ("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage));
+                    }
+                }
+
+                throw e;
+            }
+
             return RedirectToAction("Menu");
         }
 

@@ -49,7 +49,7 @@
             </td>
             <td>
                 @Html.ActionLink("Executar", "ExecutarRobo", new { sistema = item.Sistema }) |
-                @Html.ActionLink("Configurações", "AppSettings", new { sistema = item.Sistema}) |
+                @Html.ActionLink("Configurações", "AppSettings", new { configFile = item.AppSetting}) |
             </td>
         </tr>
     }

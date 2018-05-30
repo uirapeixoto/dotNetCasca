@@ -9,11 +9,19 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Xml.Linq;
+using System.Data.Entity;
 
 namespace sso.Controllers
 {
     public class RoboController : Controller
     {
+
+
+        public RoboController()
+        {
+
+        }
+
         // GET: Robo
         public ActionResult Index()
         {
@@ -109,14 +117,26 @@ namespace sso.Controllers
             }
 
             DateTime horaExecucao = new DateTime(agora.Year, agora.Month, agora.Day, _hora, _minutos, _segundos);
-            
+
             var result = new RoboExecucaoViewModel
             {
                 Nome = string.Format("Movix.{0}.AlteracaoSenha.Service", sistema),
                 Execucao = horaExecucao,
-                Desativacao  = horaExecucao,
-                AppSetting = string.Format("robo{0}Settings",sistema)
+                Desativacao = horaExecucao,
+                AppSetting = string.Format("robo{0}Settings", sistema),
+                Sistema = sistema
             };
+            var _context = new RoboContext();
+            var resultList = _context.TB_LOGIN_ROBO
+                .Where(x => x.DS_SISTEMA.ToLower() == sistema.ToLower())
+                .Select(s => new SelectListItem
+                {
+                    Text = s.DS_NOME + " - " + s.DS_PROPOSTA_UF,
+                    Value = s.CO_SEQ_USUARIO.ToString(),
+                    Selected = false,
+                });
+
+            result.UsuarioLoginSelect = resultList;
 
             return View(result);
         }
@@ -124,18 +144,45 @@ namespace sso.Controllers
         [HttpPost]
         public ActionResult ExecutarRobo(RoboExecucaoViewModel roboExecucao)
         {
-            using (var db = new RoboContext())
+            try
             {
-                var registro = db.TB_LOGIN_ROBO.Where(t => t.CO_SEQ_USUARIO == usuario.Id).SingleOrDefault();
-                registro.DS_SENHA = usuario.strSenha;
-                registro.DT_DESATIVACAO = usuario.DataDesativacao;
-                db.Entry(registro).State = EntityState.Modified;
-                db.SaveChanges();
+                using (var db = new RoboContext())
+                {
+                    var registro = db.TB_LOGIN_ROBO.Find(roboExecucao.UsuarioId);
+                    if (registro != null)
+                    {
+                        registro.DT_DESATIVACAO = roboExecucao.Execucao.Value.AddSeconds(-10);
+                        db.Entry(registro).State = EntityState.Modified;
+                        db.SaveChanges();
+
+                        XmlHandler.EditarChaveValorArquivoConfiguracao("hora", roboExecucao.Execucao.Value.Hour.ToString(), roboExecucao.AppSetting);
+                        XmlHandler.EditarChaveValorArquivoConfiguracao("minutos", roboExecucao.Execucao.Value.Minute.ToString(), roboExecucao.AppSetting);
+                        XmlHandler.EditarChaveValorArquivoConfiguracao("segundos", roboExecucao.Execucao.Value.Second.ToString(), roboExecucao.AppSetting);
+
+                        WindowsServiceHandler.RestartService(string.Format("Movix.{0}.AlteracaoSenha.Service", roboExecucao.Sistema), 5000);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Mensagem = string.Format("Message:{0} \n| InnerException:{1}",ex.Message, ex.InnerException);
+                //throw ex;
             }
 
-            return View();
+            var _context = new RoboContext();
+            roboExecucao.UsuarioLoginSelect = _context.TB_LOGIN_ROBO
+                .Where(x => x.DS_SISTEMA.ToLower() == roboExecucao.Sistema.ToLower())
+                .Select(s => new SelectListItem
+                {
+                    Text = s.DS_NOME + " - " + s.DS_PROPOSTA_UF,
+                    Value = s.CO_SEQ_USUARIO.ToString(),
+                    Selected = false,
+                });
+
+            return View(roboExecucao);
         }
 
-        
+
     }
 }

@@ -23,8 +23,6 @@ namespace sso.Controllers
             return View(model);
         }
 
-
-
         public ActionResult Login()
         {
 
