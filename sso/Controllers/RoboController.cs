@@ -15,12 +15,13 @@ namespace sso.Controllers
 {
     public class RoboController : Controller
     {
-        public readonly RoboContext _context;
+
 
         public RoboController()
         {
-            _context = new RoboContext();
+
         }
+
         // GET: Robo
         public ActionResult Index()
         {
@@ -100,8 +101,7 @@ namespace sso.Controllers
 
         public ActionResult ExecutarRobo(string sistema)
         {
-            var agora = DateTime.Now;
-            var db = new RoboContext();
+            DateTime agora = DateTime.Now;
 
             if (!int.TryParse(XmlHandler.ConsultarNoXml("hora").Value, out int _hora))
             {
@@ -126,16 +126,17 @@ namespace sso.Controllers
                 AppSetting = string.Format("robo{0}Settings", sistema),
                 Sistema = sistema
             };
-            
-            result.UsuariosLoginSelect = db.TB_LOGIN_ROBO.AsNoTracking()
-                .Where(e => e.DS_SISTEMA == sistema)
-                .AsParallel()
-                .Select(t => new SelectListItem
+            var _context = new RoboContext();
+            var resultList = _context.TB_LOGIN_ROBO
+                .Where(x => x.DS_SISTEMA.ToLower() == sistema.ToLower())
+                .Select(s => new SelectListItem
                 {
-                    Value = t.CO_SEQ_USUARIO.ToString(),
-                    Text = string.Format("{0} - {1}", t.DS_NOME, t.DS_PROPOSTA_UF),
-                    Selected = false
+                    Text = s.DS_NOME + " - " + s.DS_PROPOSTA_UF,
+                    Value = s.CO_SEQ_USUARIO.ToString(),
+                    Selected = false,
                 });
+
+            result.UsuarioLoginSelect = resultList;
 
             return View(result);
         }
@@ -145,29 +146,43 @@ namespace sso.Controllers
         {
             try
             {
-                //atualizar o banco de dados com a nova data de desativação do usuario
-                var registro = _context.TB_LOGIN_ROBO.Find(roboExecucao.UsuarioId);
-                if(registro != null)
+                using (var db = new RoboContext())
                 {
-                    registro.DT_DESATIVACAO = roboExecucao.Desativacao.Value.AddSeconds(-10);
-                    _context.Entry(registro).State = EntityState.Modified;
-                    _context.SaveChanges();
+                    var registro = db.TB_LOGIN_ROBO.Find(roboExecucao.UsuarioId);
+                    if (registro != null)
+                    {
+                        registro.DT_DESATIVACAO = roboExecucao.Execucao.Value.AddSeconds(-10);
+                        db.Entry(registro).State = EntityState.Modified;
+                        db.SaveChanges();
 
-                    XmlHandler.EditarChaveValorArquivoConfiguracao("hora", roboExecucao.Desativacao.Value.Hour.ToString(), roboExecucao.AppSetting);
-                    XmlHandler.EditarChaveValorArquivoConfiguracao("minutos", roboExecucao.Desativacao.Value.Minute.ToString(), roboExecucao.AppSetting);
-                    XmlHandler.EditarChaveValorArquivoConfiguracao("segundos", roboExecucao.Desativacao.Value.Second.ToString(), roboExecucao.AppSetting);
+                        XmlHandler.EditarChaveValorArquivoConfiguracao("hora", roboExecucao.Execucao.Value.Hour.ToString(), roboExecucao.AppSetting);
+                        XmlHandler.EditarChaveValorArquivoConfiguracao("minutos", roboExecucao.Execucao.Value.Minute.ToString(), roboExecucao.AppSetting);
+                        XmlHandler.EditarChaveValorArquivoConfiguracao("segundos", roboExecucao.Execucao.Value.Second.ToString(), roboExecucao.AppSetting);
 
-                    WindowsServiceHandler.RestartService("Movix.{0}.AlteracaoSenha.Service", 5000);
+                        WindowsServiceHandler.RestartService(string.Format("Movix.{0}.AlteracaoSenha.Service", roboExecucao.Sistema), 5000);
+                    }
+
                 }
-               
             }
             catch (Exception ex)
             {
-
-                throw;
+                ViewBag.Mensagem = string.Format("Message:{0} \n| InnerException:{1}",ex.Message, ex.InnerException);
+                //throw ex;
             }
-            return RedirectToAction("Robos");
+
+            var _context = new RoboContext();
+            roboExecucao.UsuarioLoginSelect = _context.TB_LOGIN_ROBO
+                .Where(x => x.DS_SISTEMA.ToLower() == roboExecucao.Sistema.ToLower())
+                .Select(s => new SelectListItem
+                {
+                    Text = s.DS_NOME + " - " + s.DS_PROPOSTA_UF,
+                    Value = s.CO_SEQ_USUARIO.ToString(),
+                    Selected = false,
+                });
+
+            return View(roboExecucao);
         }
-        
+
+
     }
 }

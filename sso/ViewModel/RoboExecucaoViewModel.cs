@@ -17,14 +17,12 @@ namespace sso.ViewModel
         public DateTime? Desativacao { get; set; }
         [Display(Name = "Sistema")]
         public string Sistema { get; set; }
-        public IEnumerable<SelectListItem> UsuariosLoginSelect { get; set; }
-
+        public IEnumerable<SelectListItem> UsuarioLoginSelect { get; set; }
         public int UsuarioId { get; set; }
 
         public RoboExecucaoViewModel()
         {
-            this.UsuariosLoginSelect = new List<SelectListItem> { new SelectListItem { Selected = true, Text = "Selecione", Value = "" } };
+            this.UsuarioLoginSelect= new List<SelectListItem> { new SelectListItem { Selected = true, Text = "Selecione", Value = "" } };
         }
-
     }
 }
