@@ -1,4 +1,5 @@
-﻿using sso.Models;
+﻿using sso.Helper;
+using sso.Models;
 using sso.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace sso.Controllers
             {
                 _foiRevalidado = false;
             }
-            if (!bool.TryParse(ConfigurationManager.AppSettings.Get("Editado"), out _foiEditado))
+            if (!bool.TryParse(ConfigurationManager.AppSettings.Get("Revalidado"), out _foiEditado))
             {
                 _foiEditado = false;
             }
@@ -40,8 +41,8 @@ namespace sso.Controllers
         {
             var usuario = new UsuarioLoginModel
             {
-                RecadastrarSenha = false,
-                UsuarioBloqueado = true
+                RecadastrarSenha = _usuarioBloqueado,
+                UsuarioBloqueado = _recadastrarSenha
             };
             return View(usuario);
         }
@@ -89,18 +90,33 @@ namespace sso.Controllers
                 UsuarioBloqueado = _usuarioBloqueado,
                 RecadastrarSenha = _recadastrarSenha,
                 FoiEditado = _foiEditado,
-                FoiValidado = _foiRevalidado
+                FoiValidado = _foiRevalidado,
+                SituacaoUsuario = _usuarioBloqueado
             };
-
 
             return View(usuario);
         }
         [HttpPost]
         public ActionResult UsuarioConfig(CiwebUsuarioConfigViewModel config)
         {
+            try
+            {
+                config.UsuarioBloqueado = config.SituacaoUsuario;
+                config.RecadastrarSenha = !config.UsuarioBloqueado;
 
+                XmlHandler.EditarConfiguracao("UsuarioBloqueado", config.UsuarioBloqueado.ToString());
+                XmlHandler.EditarConfiguracao("RecadastrarSenha", config.RecadastrarSenha.ToString());
+                XmlHandler.EditarConfiguracao("Revalidado", config.UsuarioBloqueado.ToString());
+                XmlHandler.EditarConfiguracao("UsuarioBloqueado", config.UsuarioBloqueado.ToString());
 
-            return View();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
+
+            return View(config);
         }
     }
 }
