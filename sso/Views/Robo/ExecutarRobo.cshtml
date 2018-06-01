@@ -2,6 +2,16 @@
 
 @{
     ViewBag.Title = "ExecutarRobo";
+    var viewmessage = "";
+    var veiwerrormessage = "";
+    if (string.IsNullOrEmpty(ViewBag.Mensagem))
+    {
+        viewmessage = "hidden";
+    }
+    if (string.IsNullOrEmpty(ViewBag.MensagemErro))
+    {
+        veiwerrormessage = "hidden";
+    }
 }
 
 <h2>Executar Robô</h2>
@@ -10,48 +20,61 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Movix Executar Robô</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Sistema)
-        <div class="form-group">
-                @Html.LabelFor(model => model.Nome)
-                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
-        </div>
+<div class="form-horizontal">
+    <h4>Movix Executar Robô</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Sistema)
+    <div class="form-group">
+        @Html.LabelFor(model => model.Nome)
+        @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+    </div>
 
-        <div class="form-group">
-                @Html.LabelFor(model => model.AppSetting)
-                @Html.EditorFor(model => model.AppSetting, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                @Html.ValidationMessageFor(model => model.AppSetting, "", new { @class = "text-danger" })
-        </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.AppSetting)
+        @Html.EditorFor(model => model.AppSetting, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        @Html.ValidationMessageFor(model => model.AppSetting, "", new { @class = "text-danger" })
+    </div>
 
-        <div class="form-group">
-                @Html.LabelFor(model => model.Execucao)
-                @Html.EditorFor(model => model.Execucao, new { htmlAttributes = new { @class = "form-control", @Value = Model.Execucao.Value.ToString("yyyy-MM-ddTHH:mm:ss"), @type = "datetime-local" } })
-                @Html.ValidationMessageFor(model => model.Execucao, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
-           @Html.DropDownListFor(model => model.UsuarioId, Model.UsuarioLoginSelect, "Selecione", new
-      {
-          @class = "form-control",
-          @required = "required"
-      })
-            @Html.ValidationMessageFor(model => model.UsuarioId, "", new { @class = "text-danger" })
-        </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Execucao)
+        @Html.EditorFor(model => model.Execucao, new { htmlAttributes = new { @class = "form-control", @Value = Model.Execucao.Value.ToString("yyyy-MM-ddTHH:mm:ss"), @type = "datetime-local" } })
+        @Html.ValidationMessageFor(model => model.Execucao, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.DropDownListFor(model => model.UsuarioId, Model.UsuarioLoginSelect, "Selecione", new
+        {
+            @class = "form-control",
+            @required = "required"
+        })
+        @Html.ValidationMessageFor(model => model.UsuarioId, "", new { @class = "text-danger" })
+    </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Executar" class="btn btn-default btn-primary" />
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Executar" class="btn btn-default btn-primary" />
+        </div>
+    </div>
+    <div class="form-group @viewmessage">
+        <div class="col-md-pull-3 col-md-offset-2 col-md-8">
+            <div class="alert alert-success" role="alert">
+                <strong>Mensagem: </strong>@ViewBag.Mensagem
             </div>
         </div>
     </div>
+    <div class="form-group @veiwerrormessage">
+        <div class="col-md-pull-3 col-md-offset-2 col-md-8">
+            <div class="alert alert-danger" role="alert">
+                <strong>Mensagem: </strong>@ViewBag.MensagemErro
+            </div>
+        </div>
+    </div>
+</div>
 }
 
 <div>
     @Html.ActionLink("Voltar", "Robos")
 </div>
-<div>
-    @ViewBag.Mensagem
-</div>
+
+

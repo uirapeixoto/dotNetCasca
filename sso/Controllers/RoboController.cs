@@ -1,15 +1,12 @@
-﻿using sso.Models;
+﻿using sso.Helper;
+using sso.Models;
 using sso.Models.Data;
 using sso.ViewModel;
-using sso.Helper;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Xml.Linq;
 using System.Data.Entity;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace sso.Controllers
 {
@@ -23,20 +20,23 @@ namespace sso.Controllers
 
         public ActionResult AppSettings(string configFile)
         {
+            ViewBag.configFile = configFile;
             var roboConfig = XmlHandler.ListarParametros(configFile);
 
             return View(roboConfig);
         }
 
-        public ActionResult EditSettings(string key)
+        public ActionResult EditSettings(string key, string configFile)
         {
-            return View(XmlHandler.ConsultarNoXml(key));
+            ViewBag.configFile = configFile;
+            return View(XmlHandler.ConsultarNoXml(key, configFile));
         }
 
         [HttpPost]
-        public ActionResult EditSettings(string key, string value)
+        public ActionResult EditSettings(string key, string value, string configFile)
         {
-            XmlHandler.EditarChaveValorArquivoConfiguracao(key, value, "roboSicaqSettings");
+            XmlHandler.EditarChaveValorArquivoConfiguracao(key, value, configFile);
+            ViewBag.Mensagem = "Registro alterado com sucesso.";
             return View();
         }
 
@@ -76,7 +76,7 @@ namespace sso.Controllers
                     Desativacao = item.DataDesativacao
                 });
             }
-
+            
             return View(roboLista);
         }
 
@@ -84,15 +84,15 @@ namespace sso.Controllers
         {
             DateTime agora = DateTime.Now;
 
-            if (!int.TryParse(XmlHandler.ConsultarNoXml("hora").Value, out int _hora))
+            if (!int.TryParse(XmlHandler.ConsultarNoXml("hora", string.Format("robo{0}Settings", sistema)).Value, out int _hora))
             {
                 _hora = 8;
             }
-            if (!int.TryParse(XmlHandler.ConsultarNoXml("minutos").Value, out int _minutos))
+            if (!int.TryParse(XmlHandler.ConsultarNoXml("minutos", string.Format("robo{0}Settings", sistema)).Value, out int _minutos))
             {
                 _minutos = 0;
             }
-            if (!int.TryParse(XmlHandler.ConsultarNoXml("segundos").Value, out int _segundos))
+            if (!int.TryParse(XmlHandler.ConsultarNoXml("segundos", string.Format("robo{0}Settings", sistema)).Value, out int _segundos))
             {
                 _segundos = 20;
             }
@@ -141,14 +141,14 @@ namespace sso.Controllers
                         XmlHandler.EditarChaveValorArquivoConfiguracao("segundos", roboExecucao.Execucao.Value.Second.ToString(), roboExecucao.AppSetting);
 
                         WindowsServiceHandler.RestartService(string.Format("Movix.{0}.AlteracaoSenha.Service", roboExecucao.Sistema), 5000);
-                        ViewBag.Mensagem = string.Format("Mensagem: O serviço Movix.{0}.AlteracaoSenha.Service agendado para. {1}",roboExecucao.Sistema,  roboExecucao.Execucao );
+                        ViewBag.Mensagem = string.Format("O serviço Movix.{0}.AlteracaoSenha.Service agendado para {1}",roboExecucao.Sistema,  roboExecucao.Execucao );
                     }
 
                 }
             }
             catch (Exception ex)
             {
-                ViewBag.Mensagem = string.Format("Message:{0} \n| InnerException:{1}",ex.Message, ex.InnerException);
+                ViewBag.MensagemErro = string.Format(" {0} \n| InnerException:{1}",ex.Message, ex.InnerException);
                 //throw ex;
             }
 

@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "AppSettings";
+    string configFile = (!string.IsNullOrEmpty(ViewBag.configFile) ? ViewBag.configFile : "");
 }
 
 <h2>AppSettings</h2>
@@ -17,7 +18,7 @@
         <th width="70%">
             @Html.DisplayNameFor(model => model.Value)
         </th>
-        <th width="30%"></th>
+        <th width="30%">Ação</th>
     </tr>
 @foreach (var item in Model) {
     <tr>
@@ -36,8 +37,7 @@
             
         </td>
         <td>
-            @Html.ActionLink("Edit", "EditSettings", new { key=item.key }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            @Html.ActionLink(" Editar", "EditSettings", new { key=item.key, configFile = configFile }, new { @class= "glyphicon glyphicon-edit" })
         </td>
     </tr>
 }

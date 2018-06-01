@@ -11,18 +11,14 @@ namespace sso.Helper
             ServiceController service = new ServiceController(serviceName);
             try
             {
-                int millisec1 = Environment.TickCount;
-                TimeSpan timeout = TimeSpan.FromMilliseconds(timeoutMilliseconds);
-
-                service.Stop();
-                service.WaitForStatus(ServiceControllerStatus.Stopped, timeout);
-
-                // count the rest of the timeout
-                int millisec2 = Environment.TickCount;
-                timeout = TimeSpan.FromMilliseconds(timeoutMilliseconds - (millisec2 - millisec1));
-
-                service.Start();
-                service.WaitForStatus(ServiceControllerStatus.Running, timeout);
+                if (service.Status.Equals(ServiceControllerStatus.Stopped))
+                {
+                    StartService(serviceName, timeoutMilliseconds);
+                }else if (service.Status.Equals(ServiceControllerStatus.Running))
+                {
+                    StopService(serviceName, timeoutMilliseconds);
+                    StartService(serviceName, timeoutMilliseconds);
+                }
             }
             catch (Exception ex)
             {
@@ -51,11 +47,13 @@ namespace sso.Helper
             ServiceController service = new ServiceController(serviceName);
             try
             {
-                int millisec1 = Environment.TickCount;
                 TimeSpan timeout = TimeSpan.FromMilliseconds(timeoutMilliseconds);
+                // count the rest of the timeout
+                int millisec2 = Environment.TickCount;
+                timeout = TimeSpan.FromMilliseconds(timeoutMilliseconds);
 
                 service.Start();
-                service.WaitForStatus(ServiceControllerStatus.Stopped, timeout);
+                service.WaitForStatus(ServiceControllerStatus.Running, timeout);
             }
             catch (Exception ex)
             {

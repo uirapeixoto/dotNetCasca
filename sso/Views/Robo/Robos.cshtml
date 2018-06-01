@@ -6,9 +6,6 @@
 
 <h2>Robos</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -26,7 +23,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Desativacao)
         </th>
-        <th></th>
+        <th class="text-center">Ação</th>
     </tr>
 
     @foreach (var item in Model)

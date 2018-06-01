@@ -32,11 +32,11 @@ namespace sso.Helper
             }
         }
 
-        public static xmlAppSettingsModel ConsultarNoXml(string key)
+        public static xmlAppSettingsModel ConsultarNoXml(string key, string configFile)
         {
             try
             {
-                XElement xml = XElement.Load(ConfigurationManager.AppSettings.Get("roboSicaqSettings"));
+                XElement xml = XElement.Load(ConfigurationManager.AppSettings.Get(configFile));
                 XElement x = xml.Elements("appSettings")
                     .Descendants()
                     .Where(p => p.Attribute("key").Value.Equals(key)).First();
