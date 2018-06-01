@@ -1,4 +1,5 @@
 ﻿using sso.Models;
+using sso.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -40,7 +41,7 @@ namespace sso.Controllers
             var usuario = new UsuarioLoginModel
             {
                 RecadastrarSenha = false,
-                UsuarioBloqueado = false
+                UsuarioBloqueado = true
             };
             return View(usuario);
         }
@@ -79,6 +80,27 @@ namespace sso.Controllers
         {
             usuario.foiRevalidado = _foiRevalidado;
             return View(usuario);
+        }
+
+        public ActionResult UsuarioConfig()
+        {
+            var usuario = new CiwebUsuarioConfigViewModel
+            {
+                UsuarioBloqueado = _usuarioBloqueado,
+                RecadastrarSenha = _recadastrarSenha,
+                FoiEditado = _foiEditado,
+                FoiValidado = _foiRevalidado
+            };
+
+
+            return View(usuario);
+        }
+        [HttpPost]
+        public ActionResult UsuarioConfig(CiwebUsuarioConfigViewModel config)
+        {
+
+
+            return View();
         }
     }
 }
