@@ -15,13 +15,6 @@ namespace sso.Controllers
 {
     public class RoboController : Controller
     {
-
-
-        public RoboController()
-        {
-
-        }
-
         // GET: Robo
         public ActionResult Index()
         {
@@ -30,20 +23,8 @@ namespace sso.Controllers
 
         public ActionResult AppSettings(string configFile)
         {
-            List<xmlAppSettingsModel> roboConfig = new List<xmlAppSettingsModel>();
-            XElement xml = XElement.Load(ConfigurationManager.AppSettings.Get(configFile));
-            var element = xml.Element("appSettings");
-            var nodes = element.Nodes();
+            var roboConfig = XmlHandler.ListarParametros(configFile);
 
-            foreach (var x in xml.Element("appSettings").Descendants())
-            {
-                xmlAppSettingsModel p = new xmlAppSettingsModel()
-                {
-                    key = x.Attribute("key").Value,
-                    Value = x.Attribute("value").Value,
-                };
-                roboConfig.Add(p);
-            }
             return View(roboConfig);
         }
 

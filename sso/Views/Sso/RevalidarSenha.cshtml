@@ -1,0 +1,61 @@
+﻿@model sso.Models.UsuarioLoginPage
+
+@{
+    ViewBag.Title = "RevalidarSenha";
+}
+
+<h2>Ciweb</h2>
+@if (Model.foiRevalidado)
+{
+    <div class="row">
+        <div class="alert alert-danger" role="alert">
+            <p>
+                <b>Sua solicitação foi processa com sucesso.</b>
+                Em breve você receberá no e-mail registrado para sua matrícula um link que contém o código para gerar sua nova senha.
+            </p>
+            <p> Em caso de dúvidas, entre em contato com o seu gestor.</p>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.ActionLink("Voltar", "Index", null, new { @class = "btn btn-default btn-primary" })
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    using (Html.BeginForm(FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Solicitação de Nova Senha</h4>
+            <p tabindex="5">
+                Entre com seu código de usuário e seu primeiro nome nos campos abaixo.
+                Você receberá um e-mail que lhe permitirá gerar sua nova senha.
+            </p>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.strUsuario)
+                @Html.EditorFor(model => model.strUsuario, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.strAtual, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.strNome)
+                @Html.EditorFor(model => model.strNome, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.strNova, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <div class="col-md-2">
+                    @Html.ActionLink("Voltar", "Index", null, new { @class = "btn btn-default btn-primary" })
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" id="botaoLogin" role="button" class="btn btn-default btn-primary">Enviar
+                        <i class="glyphicon glyphicon-circle-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+}

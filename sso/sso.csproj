@@ -157,9 +157,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CaixaAquiController.cs" />
+    <Compile Include="Controllers\DadosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RoboApiController.cs" />
     <Compile Include="Controllers\RoboController.cs" />
+    <Compile Include="Controllers\SsoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -185,6 +187,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="images\404.jpg" />
+    <Content Include="imgs\wall_e.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -231,6 +234,11 @@
     <Content Include="Views\Robo\EditSettings.cshtml" />
     <Content Include="Views\Robo\Robos.cshtml" />
     <Content Include="Views\Robo\ExecutarRobo.cshtml" />
+    <Content Include="Views\Dados\Edit.cshtml" />
+    <Content Include="Views\Dados\Index.cshtml" />
+    <Content Include="Views\Sso\TrocaSenha.cshtml" />
+    <Content Include="Views\Sso\RevalidarSenha.cshtml" />
+    <Content Include="Views\Sso\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
