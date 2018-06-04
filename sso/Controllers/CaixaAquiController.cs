@@ -9,7 +9,7 @@ namespace sso.Controllers
 
         public CaixaAquiController()
         {
-            _bloqueado = true;
+            _bloqueado = false;
         }
         
         // GET: CaixaAqui
