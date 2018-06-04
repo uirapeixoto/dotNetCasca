@@ -159,7 +159,6 @@
     <Compile Include="Controllers\CaixaAquiController.cs" />
     <Compile Include="Controllers\DadosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\RoboApiController.cs" />
     <Compile Include="Controllers\RoboController.cs" />
     <Compile Include="Controllers\SsoController.cs" />
     <Compile Include="Global.asax.cs">
@@ -170,6 +169,7 @@
     <Compile Include="Models\CiwebUsuarioConfigModel.cs" />
     <Compile Include="Models\Data\RoboContext.cs" />
     <Compile Include="Models\Data\TB_LOGIN_ROBO.cs" />
+    <Compile Include="Models\UsuarioCiwebLoginModel.cs" />
     <Compile Include="Models\UsuarioLoginModel.cs" />
     <Compile Include="Models\UsuarioLoginPage.cs" />
     <Compile Include="Models\UsuarioLoginSicaqModel.cs" />

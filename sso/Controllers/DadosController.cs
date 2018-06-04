@@ -79,6 +79,7 @@ namespace sso.Controllers
                     db.Entry(registro).State = EntityState.Modified;
                     db.SaveChanges();
                 }
+                ViewBag.Mensagem = "Registro alterado com sucesso.";
             }
             catch (DbEntityValidationException e)
             {
@@ -93,10 +94,10 @@ namespace sso.Controllers
                     }
                 }
 
-                throw e;
+                ViewBag.MensagemErro = e.Message;
             }
 
-            return RedirectToAction("Menu");
+            return RedirectToAction("Index");
         }
     }
 }

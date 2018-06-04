@@ -5,6 +5,13 @@ namespace sso.Controllers
 {
     public class CaixaAquiController : Controller
     {
+        private bool _bloqueado;
+
+        public CaixaAquiController()
+        {
+            _bloqueado = true;
+        }
+        
         // GET: CaixaAqui
         public ActionResult Index()
         {
@@ -15,7 +22,17 @@ namespace sso.Controllers
         [HttpPost]
         public ActionResult Index(UsuarioLoginSicaqViewModel model)
         {
-            return RedirectToAction("Menu",model);
+            model.Bloqueado = _bloqueado;
+            if (_bloqueado)
+            {
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("Menu",model);
+            }
+            
+            
         }
 
         public ActionResult Menu(UsuarioLoginSicaqViewModel model)

@@ -33,7 +33,7 @@ namespace sso.Controllers
             {
                 _foiRevalidado = false;
             }
-            if (!bool.TryParse(ConfigurationManager.AppSettings.Get("Revalidado"), out _foiEditado))
+            if (!bool.TryParse(ConfigurationManager.AppSettings.Get("Editado"), out _foiEditado))
             {
                 _foiEditado = false;
             }
@@ -41,6 +41,11 @@ namespace sso.Controllers
         // GET: Sso
         public ActionResult Index()
         {
+            if (!bool.TryParse(ConfigurationManager.AppSettings.Get("UsuarioBloqueado"), out _usuarioBloqueado))
+            {
+                _usuarioBloqueado = false;
+            }
+
             var usuario = new UsuarioLoginModel
             {
                 RecadastrarSenha = false,
@@ -60,8 +65,8 @@ namespace sso.Controllers
             {
                 _usuarioBloqueado = false;
             }
-            usuario.RecadastrarSenha = _recadastrarSenha;
-            usuario.UsuarioBloqueado = _usuarioBloqueado;
+            usuario.RecadastrarSenha = false;
+            usuario.UsuarioBloqueado = true;
 
             return View(usuario);
         }
@@ -95,6 +100,23 @@ namespace sso.Controllers
 
         public ActionResult UsuarioConfig()
         {
+            if (!bool.TryParse(ConfigurationManager.AppSettings.Get("UsuarioBloqueado"), out _usuarioBloqueado))
+            {
+                _usuarioBloqueado = false;
+            }
+            if (!bool.TryParse(ConfigurationManager.AppSettings.Get("RecadastrarSenha"), out _recadastrarSenha))
+            {
+                _recadastrarSenha = false;
+            }
+            if (!bool.TryParse(ConfigurationManager.AppSettings.Get("Revalidado"), out _foiRevalidado))
+            {
+                _foiRevalidado = false;
+            }
+            if (!bool.TryParse(ConfigurationManager.AppSettings.Get("Editado"), out _foiEditado))
+            {
+                _foiEditado = false;
+            }
+
             var usuario = new CiwebUsuarioConfigViewModel
             {
                 UsuarioBloqueado = _usuarioBloqueado,
@@ -117,8 +139,8 @@ namespace sso.Controllers
 
                 XmlHandler.SetAppSettings(currentconfig, "UsuarioBloqueado", config.UsuarioBloqueado.ToString());
                 XmlHandler.SetAppSettings(currentconfig, "RecadastrarSenha", config.RecadastrarSenha.ToString());
-                XmlHandler.SetAppSettings(currentconfig, "Revalidado", config.UsuarioBloqueado.ToString());
-                XmlHandler.SetAppSettings(currentconfig, "UsuarioBloqueado", config.UsuarioBloqueado.ToString());
+                XmlHandler.SetAppSettings(currentconfig, "Revalidado", config.FoiValidado.ToString());
+                XmlHandler.SetAppSettings(currentconfig, "Editado", config.FoiEditado.ToString());
                 ViewBag.Mensagem = "Registro alterado com sucesso.";
 
             }
