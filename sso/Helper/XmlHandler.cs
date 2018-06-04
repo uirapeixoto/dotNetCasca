@@ -2,7 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
+using System.Text;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace sso.Helper
@@ -76,19 +79,66 @@ namespace sso.Helper
             return roboConfig;
         }
 
-        public static void EditarConfiguracao(string key, string value)
+        public static Configuration SetAppSettings(this Configuration config, string key, string value)
         {
-            if(!string.IsNullOrEmpty(key) && !string.IsNullOrEmpty(value))
+            if (config == null) return config;
+
+            var isAppSettingsExternalFile = !string.IsNullOrEmpty(config.AppSettings.File);
+
+            if (isAppSettingsExternalFile)
             {
-                Configuration objConfig = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
-                AppSettingsSection objAppsettings = (AppSettingsSection)objConfig.GetSection("appSettings");
-                //Edit
-                if (objAppsettings != null)
+                var dirConfig = Path.GetDirectoryName(config.AppSettings.File);
+                if (string.IsNullOrEmpty(dirConfig)) dirConfig = Path.GetDirectoryName(config.FilePath);
+
+                string path = Path.Combine(dirConfig, Path.GetFileName(config.AppSettings.File));
+
+                XmlDocument doc = new XmlDocument();
+                doc.Load(path);
+
+                XmlNode node = doc.SelectSingleNode("/appSettings/add[@key='" + key + "']");
+                if (node == null)
                 {
-                    objAppsettings.Settings[key].Value = value;
-                    objConfig.Save();
+                    XmlElement elem = doc.CreateElement("add");
+
+                    elem.SetAttribute("key", key);
+                    elem.SetAttribute("value", value);
+
+                    doc.SelectSingleNode("/appSettings").AppendChild(elem);
+                }
+                else
+                {
+                    node.Attributes["value"].Value = value;
+                }
+
+                using (XmlTextWriter writer = new XmlTextWriter(path, Encoding.UTF8))
+                {
+                    writer.Formatting = Formatting.Indented;
+                    doc.WriteTo(writer);
+                    writer.Flush();
+                    writer.Close();
                 }
             }
+            else
+            {
+                AppSettingsSection appSettings = config.AppSettings;
+
+                if (appSettings.Settings[key] == null)
+                {
+                    appSettings.Settings.Add(new KeyValueConfigurationElement(key, value));
+                }
+                else
+                {
+                    appSettings.Settings[key].Value = value;
+                }
+
+                config.Save();
+            }
+
+            ConfigurationManager.RefreshSection("appSettings");
+
+            config = ConfigurationManager.OpenMachineConfiguration();
+
+            return config;
         }
     }
 }

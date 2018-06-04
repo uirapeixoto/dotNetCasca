@@ -242,6 +242,7 @@
     <Content Include="Views\Sso\RevalidarSenha.cshtml" />
     <Content Include="Views\Sso\Index.cshtml" />
     <Content Include="Views\Sso\UsuarioConfig.cshtml" />
+    <Content Include="Views\Shared\_PartialPageAlert.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

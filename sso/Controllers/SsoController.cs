@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 
 namespace sso.Controllers
@@ -27,6 +28,7 @@ namespace sso.Controllers
             {
                 _recadastrarSenha = false;
             }
+
             if (!bool.TryParse(ConfigurationManager.AppSettings.Get("Revalidado"), out _foiRevalidado))
             {
                 _foiRevalidado = false;
@@ -41,8 +43,8 @@ namespace sso.Controllers
         {
             var usuario = new UsuarioLoginModel
             {
-                RecadastrarSenha = _usuarioBloqueado,
-                UsuarioBloqueado = _recadastrarSenha
+                RecadastrarSenha = false,
+                UsuarioBloqueado = _usuarioBloqueado
             };
             return View(usuario);
         }
@@ -50,6 +52,14 @@ namespace sso.Controllers
         [HttpPost]
         public ActionResult Index(UsuarioLoginModel usuario)
         {
+            if (!bool.TryParse(ConfigurationManager.AppSettings.Get("RecadastrarSenha"), out _recadastrarSenha))
+            {
+                _recadastrarSenha = false;
+            }
+            if (!bool.TryParse(ConfigurationManager.AppSettings.Get("UsuarioBloqueado"), out _usuarioBloqueado))
+            {
+                _usuarioBloqueado = false;
+            }
             usuario.RecadastrarSenha = _recadastrarSenha;
             usuario.UsuarioBloqueado = _usuarioBloqueado;
 
@@ -101,18 +111,21 @@ namespace sso.Controllers
         {
             try
             {
-                config.UsuarioBloqueado = config.SituacaoUsuario;
-                config.RecadastrarSenha = !config.UsuarioBloqueado;
+                config.UsuarioBloqueado = config.UsuarioBloqueado;
+                config.RecadastrarSenha = config.RecadastrarSenha;
+                var currentconfig = WebConfigurationManager.OpenWebConfiguration("~");
 
-                XmlHandler.EditarConfiguracao("UsuarioBloqueado", config.UsuarioBloqueado.ToString());
-                XmlHandler.EditarConfiguracao("RecadastrarSenha", config.RecadastrarSenha.ToString());
-                XmlHandler.EditarConfiguracao("Revalidado", config.UsuarioBloqueado.ToString());
-                XmlHandler.EditarConfiguracao("UsuarioBloqueado", config.UsuarioBloqueado.ToString());
+                XmlHandler.SetAppSettings(currentconfig, "UsuarioBloqueado", config.UsuarioBloqueado.ToString());
+                XmlHandler.SetAppSettings(currentconfig, "RecadastrarSenha", config.RecadastrarSenha.ToString());
+                XmlHandler.SetAppSettings(currentconfig, "Revalidado", config.UsuarioBloqueado.ToString());
+                XmlHandler.SetAppSettings(currentconfig, "UsuarioBloqueado", config.UsuarioBloqueado.ToString());
+                ViewBag.Mensagem = "Registro alterado com sucesso.";
 
             }
             catch (Exception ex)
             {
-                throw ex;
+                ViewBag.MensagemErro = ex.Message;
+                //throw ex;
             }
             
 
