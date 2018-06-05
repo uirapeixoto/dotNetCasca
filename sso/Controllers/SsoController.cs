@@ -41,15 +41,10 @@ namespace sso.Controllers
         // GET: Sso
         public ActionResult Index()
         {
-            if (!bool.TryParse(ConfigurationManager.AppSettings.Get("UsuarioBloqueado"), out _usuarioBloqueado))
-            {
-                _usuarioBloqueado = false;
-            }
-
             var usuario = new UsuarioLoginModel
             {
                 RecadastrarSenha = false,
-                UsuarioBloqueado = _usuarioBloqueado
+                UsuarioBloqueado = false
             };
             return View(usuario);
         }
@@ -65,8 +60,8 @@ namespace sso.Controllers
             {
                 _usuarioBloqueado = false;
             }
-            usuario.RecadastrarSenha = false;
-            usuario.UsuarioBloqueado = true;
+            usuario.RecadastrarSenha = _recadastrarSenha;
+            usuario.UsuarioBloqueado = false;
 
             return View(usuario);
         }

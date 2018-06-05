@@ -33,7 +33,10 @@ namespace sso.Models.Data
         [Required]
         [StringLength(50)]
         public string DS_SISTEMA { get; set; }
-        
+
+        [StringLength(50)]
+        public string DS_STATUS { get; set; }
+
         [StringLength(50)]
         public string DS_RESPONSAVEL { get; set; }
 

@@ -26,7 +26,8 @@ namespace sso.Controllers
                     Sistema = t.DS_SISTEMA,
                     Responsavel = t.DS_RESPONSAVEL,
                     DataDesativacao = t.DT_DESATIVACAO,
-                    DataExecucao = t.DT_EXECUCAO
+                    DataExecucao = t.DT_EXECUCAO,
+                    Status = t.DS_STATUS
                 }).OrderBy(s => s.Sistema).ToList();
             }
             return View(dados);

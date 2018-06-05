@@ -169,6 +169,7 @@
     <Compile Include="Models\CiwebUsuarioConfigModel.cs" />
     <Compile Include="Models\Data\RoboContext.cs" />
     <Compile Include="Models\Data\TB_LOGIN_ROBO.cs" />
+    <Compile Include="Models\SicaqUsuarioConfigModel.cs" />
     <Compile Include="Models\UsuarioCiwebLoginModel.cs" />
     <Compile Include="Models\UsuarioLoginModel.cs" />
     <Compile Include="Models\UsuarioLoginPage.cs" />
@@ -243,6 +244,7 @@
     <Content Include="Views\Sso\Index.cshtml" />
     <Content Include="Views\Sso\UsuarioConfig.cshtml" />
     <Content Include="Views\Shared\_PartialPageAlert.cshtml" />
+    <Content Include="Views\CaixaAqui\UsuarioConfig.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
