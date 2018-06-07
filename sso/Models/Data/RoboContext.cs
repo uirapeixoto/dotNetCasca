@@ -35,6 +35,10 @@ namespace sso.Models.Data
             modelBuilder.Entity<TB_LOGIN_ROBO>()
                 .Property(e => e.DS_SISTEMA)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<TB_LOGIN_ROBO>()
+                .Property(e => e.DS_RESPONSAVEL)
+                .IsUnicode(false);
         }
     }
 }

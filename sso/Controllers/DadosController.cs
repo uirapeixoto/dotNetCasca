@@ -27,7 +27,7 @@ namespace sso.Controllers
                     Responsavel = t.DS_RESPONSAVEL,
                     DataDesativacao = t.DT_DESATIVACAO,
                     DataExecucao = t.DT_EXECUCAO,
-                    Status = t.DS_STATUS
+                    EmManutencao = t.ST_EMMANUTENCAO
                 }).OrderBy(s => s.Sistema).ToList();
             }
             return View(dados);
@@ -59,7 +59,8 @@ namespace sso.Controllers
                         Sistema = t.DS_SISTEMA,
                         Responsavel = t.DS_RESPONSAVEL,
                         DataDesativacao = t.DT_DESATIVACAO,
-                        DataExecucao = t.DT_EXECUCAO
+                        DataExecucao = t.DT_EXECUCAO,
+                        EmManutencao = t.ST_EMMANUTENCAO
                     }).FirstOrDefault();
 
             }
@@ -77,6 +78,7 @@ namespace sso.Controllers
                     var registro = db.TB_LOGIN_ROBO.Where(t => t.CO_SEQ_USUARIO == usuario.Id).SingleOrDefault();
                     registro.DS_SENHA = usuario.strSenha;
                     registro.DT_DESATIVACAO = usuario.DataDesativacao;
+                    registro.ST_EMMANUTENCAO = usuario.EmManutencao;
                     db.Entry(registro).State = EntityState.Modified;
                     db.SaveChanges();
                 }

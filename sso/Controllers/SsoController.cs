@@ -61,7 +61,7 @@ namespace sso.Controllers
                 _usuarioBloqueado = false;
             }
             usuario.RecadastrarSenha = _recadastrarSenha;
-            usuario.UsuarioBloqueado = false;
+            usuario.UsuarioBloqueado = _usuarioBloqueado;
 
             return View(usuario);
         }

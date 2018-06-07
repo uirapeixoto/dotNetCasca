@@ -34,11 +34,9 @@ namespace sso.Models.Data
         [StringLength(50)]
         public string DS_SISTEMA { get; set; }
 
-        [StringLength(50)]
-        public string DS_STATUS { get; set; }
+        public bool ST_EMMANUTENCAO { get; set; }
 
         [StringLength(50)]
         public string DS_RESPONSAVEL { get; set; }
-
     }
 }
