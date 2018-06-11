@@ -83,8 +83,7 @@ namespace sso.Controllers
             {
                 config.Bloqueado = config.Bloqueado;
                 var currentconfig = WebConfigurationManager.OpenWebConfiguration("~");
-
-                XmlHandler.SetAppSettings(currentconfig, "SicaqUsuarioBloqueado", config.Bloqueado.ToString());
+                XmlHandler.SetWebAppSettings(currentconfig,"SicaqUsuarioBloqueado", config.Bloqueado.ToString());
                 ViewBag.Mensagem = "Registro alterado com sucesso.";
 
             }

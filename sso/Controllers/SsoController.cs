@@ -128,14 +128,13 @@ namespace sso.Controllers
         {
             try
             {
-                config.UsuarioBloqueado = config.UsuarioBloqueado;
-                config.RecadastrarSenha = config.RecadastrarSenha;
                 var currentconfig = WebConfigurationManager.OpenWebConfiguration("~");
 
-                XmlHandler.SetAppSettings(currentconfig, "UsuarioBloqueado", config.UsuarioBloqueado.ToString());
-                XmlHandler.SetAppSettings(currentconfig, "RecadastrarSenha", config.RecadastrarSenha.ToString());
-                XmlHandler.SetAppSettings(currentconfig, "Revalidado", config.FoiValidado.ToString());
-                XmlHandler.SetAppSettings(currentconfig, "Editado", config.FoiEditado.ToString());
+                XmlHandler.SetWebAppSettings(currentconfig, "UsuarioBloqueado", config.UsuarioBloqueado.ToString());
+                XmlHandler.SetWebAppSettings(currentconfig, "RecadastrarSenha", config.RecadastrarSenha.ToString());
+                XmlHandler.SetWebAppSettings(currentconfig, "Revalidado", config.FoiValidado.ToString());
+                XmlHandler.SetWebAppSettings(currentconfig, "Editado", config.FoiEditado.ToString());
+
                 ViewBag.Mensagem = "Registro alterado com sucesso.";
 
             }

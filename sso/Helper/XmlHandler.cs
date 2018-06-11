@@ -5,6 +5,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Web.Configuration;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -79,7 +80,7 @@ namespace sso.Helper
             return roboConfig;
         }
 
-        public static Configuration SetAppSettings(this Configuration config, string key, string value)
+        public static Configuration SetWebAppSettings(this Configuration config, string key, string value)
         {
             if (config == null) return config;
 
@@ -95,7 +96,7 @@ namespace sso.Helper
                 XmlDocument doc = new XmlDocument();
                 doc.Load(path);
 
-                XmlNode node = doc.SelectSingleNode("/appSettings/add[@key='" + key + "']");
+                XmlNode node = doc.SelectSingleNode(string.Format("/appSettings/add[@key='{0}']", key));
                 if (node == null)
                 {
                     XmlElement elem = doc.CreateElement("add");
@@ -107,7 +108,9 @@ namespace sso.Helper
                 }
                 else
                 {
-                    node.Attributes["value"].Value = value;
+
+                    XmlElement elem = (XmlElement)node.SelectSingleNode(string.Format("//add[@key='{0}']", key));
+                    elem.SetAttribute("value", value);
                 }
 
                 using (XmlTextWriter writer = new XmlTextWriter(path, Encoding.UTF8))
@@ -117,6 +120,7 @@ namespace sso.Helper
                     writer.Flush();
                     writer.Close();
                 }
+
             }
             else
             {
@@ -136,9 +140,62 @@ namespace sso.Helper
 
             ConfigurationManager.RefreshSection("appSettings");
 
-            config = ConfigurationManager.OpenMachineConfiguration();
+            config = WebConfigurationManager.OpenWebConfiguration("~");
 
             return config;
+        }
+
+        public static void WriteSetting(Configuration config, string key, string value)
+        {
+            // load config document for current assembly
+            XmlDocument doc = loadConfigDocument(config);
+
+            // retrieve appSettings node
+            XmlNode node = doc.SelectSingleNode("//appSettings");
+
+            if (node == null)
+                throw new InvalidOperationException("appSettings section not found in config file.");
+
+            try
+            {
+                // select the 'add' element that contains the key
+                XmlElement elem = (XmlElement)node.SelectSingleNode(string.Format("//add[@key='{0}']", key));
+
+                if (elem != null)
+                {
+                    // add value for key
+                    elem.SetAttribute("value", value);
+                }
+                else
+                {
+                    // key was not found so create the 'add' element 
+                    // and set it's key/value attributes 
+                    elem = doc.CreateElement("add");
+                    elem.SetAttribute("key", key);
+                    elem.SetAttribute("value", value);
+                    node.AppendChild(elem);
+                }
+                doc.Save(config.FilePath);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        private static XmlDocument loadConfigDocument(Configuration config)
+        {
+            XmlDocument doc = null;
+            try
+            {
+                doc = new XmlDocument();
+                doc.Load(config.FilePath);
+                return doc;
+            }
+            catch (System.IO.FileNotFoundException e)
+            {
+                throw new Exception("No configuration file found.", e);
+            }
         }
     }
 }
