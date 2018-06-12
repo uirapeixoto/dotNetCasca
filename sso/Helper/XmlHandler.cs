@@ -13,6 +13,12 @@ namespace sso.Helper
 {
     public static class XmlHandler
     {
+        internal static XmlDocument _doc = new XmlDocument();
+        internal static XmlNode _node;
+        internal static XmlElement _elem;
+        internal static string _path;
+
+
         public static bool EditarChaveValorArquivoConfiguracao(string key, string value, string arquivoConfiguracao)
         {
             try
@@ -147,35 +153,49 @@ namespace sso.Helper
 
         public static void WriteSetting(Configuration config, string key, string value)
         {
-            // load config document for current assembly
-            XmlDocument doc = loadConfigDocument(config);
+            //verifica se as configurações do appSettins estão em um arquivo externo
+            var isAppSettingsExternalFile = !string.IsNullOrEmpty(config.AppSettings.File);
 
-            // retrieve appSettings node
-            XmlNode node = doc.SelectSingleNode("//appSettings");
+            if (isAppSettingsExternalFile)
+            {
+                var dirConfig = Path.GetDirectoryName(config.AppSettings.File);
+                if (string.IsNullOrEmpty(dirConfig)) dirConfig = Path.GetDirectoryName(config.FilePath);
+                _path = Path.Combine(dirConfig, Path.GetFileName(config.AppSettings.File));
+                _doc.Load(_path);
+            }
+            else
+            {
+                _path = config.FilePath;
+                _doc = loadConfigDocument(config);
+            }
 
-            if (node == null)
+            _node = _doc.SelectSingleNode("/appSettings");
+            _elem = (XmlElement)_node.SelectSingleNode(string.Format("//add[@key='{0}']", key));
+
+            if (_node == null)
                 throw new InvalidOperationException("appSettings section not found in config file.");
 
             try
             {
-                // select the 'add' element that contains the key
-                XmlElement elem = (XmlElement)node.SelectSingleNode(string.Format("//add[@key='{0}']", key));
-
-                if (elem != null)
+               
+                if (_elem != null)
                 {
                     // add value for key
-                    elem.SetAttribute("value", value);
+                    //_elem.SetAttribute("value", value);
+                    WebConfigurationManager.AppSettings.Set(key, value);
                 }
                 else
                 {
                     // key was not found so create the 'add' element 
                     // and set it's key/value attributes 
-                    elem = doc.CreateElement("add");
-                    elem.SetAttribute("key", key);
-                    elem.SetAttribute("value", value);
-                    node.AppendChild(elem);
+                    _elem = _doc.CreateElement("add");
+                    _elem.SetAttribute("key", key);
+                    _elem.SetAttribute("value", value);
+                    _node.AppendChild(_elem);
                 }
-                doc.Save(config.FilePath);
+                _doc.Save(_path);
+                ConfigurationManager.RefreshSection("appSettings");
+                
             }
             catch
             {

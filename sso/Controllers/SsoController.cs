@@ -130,8 +130,10 @@ namespace sso.Controllers
             {
                 var currentconfig = WebConfigurationManager.OpenWebConfiguration("~");
 
+                XmlHandler.WriteSetting(currentconfig, "UsuarioBloqueado", config.UsuarioBloqueado.ToString());
                 XmlHandler.SetWebAppSettings(currentconfig, "UsuarioBloqueado", config.UsuarioBloqueado.ToString());
                 XmlHandler.SetWebAppSettings(currentconfig, "RecadastrarSenha", config.RecadastrarSenha.ToString());
+                XmlHandler.WriteSetting(currentconfig, "RecadastrarSenha", config.RecadastrarSenha.ToString());
                 XmlHandler.SetWebAppSettings(currentconfig, "Revalidado", config.FoiValidado.ToString());
                 XmlHandler.SetWebAppSettings(currentconfig, "Editado", config.FoiEditado.ToString());
 
