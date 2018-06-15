@@ -27,5 +27,6 @@ namespace sso.Models
 
         public bool RecadastrarSenha { get; set; }
         public bool UsuarioBloqueado { get; set; }
+        public bool Logar { get; set; }
     }
 }

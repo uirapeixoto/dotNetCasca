@@ -190,6 +190,12 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="images\404.jpg" />
+    <Content Include="imgs\empreendimento.gif" />
+    <Content Include="imgs\entidadegestora.gif" />
+    <Content Include="imgs\find.gif" />
+    <Content Include="imgs\help.gif" />
+    <Content Include="imgs\lists.gif" />
+    <Content Include="imgs\simulador.gif" />
     <Content Include="imgs\wall_e.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -245,6 +251,7 @@
     <Content Include="Views\Sso\UsuarioConfig.cshtml" />
     <Content Include="Views\Shared\_PartialPageAlert.cshtml" />
     <Content Include="Views\CaixaAqui\UsuarioConfig.cshtml" />
+    <Content Include="Views\Sso\Menu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
