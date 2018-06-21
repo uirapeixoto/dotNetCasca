@@ -11,6 +11,7 @@ namespace sso.Controllers
     public class CaixaAquiController : Controller
     {
         private bool _bloqueado;
+        private bool _desbloquearUsuario;
         
         // GET: CaixaAqui
         public ActionResult Index()
@@ -26,10 +27,19 @@ namespace sso.Controllers
             {
                 _bloqueado = false;
             }
+            if (!bool.TryParse(ConfigurationManager.AppSettings.Get("SicaqDesbloquearUsuario"), out _desbloquearUsuario))
+            {
+                _desbloquearUsuario = false;
+            }
             model.Bloqueado = _bloqueado;
+            model.DesbloquearUsuario = _desbloquearUsuario;
             if (_bloqueado)
             {
                 return View(model);
+            }
+            else if (_desbloquearUsuario)
+            {
+                return RedirectToAction("AlteracaoSenha", model);
             }
             else
             {
@@ -73,7 +83,12 @@ namespace sso.Controllers
             {
                 _bloqueado = false;
             }
+            if (!bool.TryParse(ConfigurationManager.AppSettings.Get("SicaqDesbloquearUsuario"), out _desbloquearUsuario))
+            {
+                _desbloquearUsuario = false;
+            }
             config.Bloqueado = _bloqueado;
+            config.DesbloquearUsuario = _desbloquearUsuario;
             return View(config);
         }
         [HttpPost]
@@ -84,6 +99,7 @@ namespace sso.Controllers
                 config.Bloqueado = config.Bloqueado;
                 var currentconfig = WebConfigurationManager.OpenWebConfiguration("~");
                 XmlHandler.WriteSetting(currentconfig,"SicaqUsuarioBloqueado", config.Bloqueado.ToString());
+                XmlHandler.WriteSetting(currentconfig, "SicaqDesbloquearUsuario", config.DesbloquearUsuario.ToString());
                 //XmlHandler.SetWebAppSettings(currentconfig,"SicaqUsuarioBloqueado", config.Bloqueado.ToString());
                 ViewBag.Mensagem = "Registro alterado com sucesso.";
 

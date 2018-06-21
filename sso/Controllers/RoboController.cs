@@ -140,7 +140,7 @@ namespace sso.Controllers
                         XmlHandler.EditarChaveValorArquivoConfiguracao("minutos", roboExecucao.Execucao.Value.Minute.ToString(), roboExecucao.AppSetting);
                         XmlHandler.EditarChaveValorArquivoConfiguracao("segundos", roboExecucao.Execucao.Value.Second.ToString(), roboExecucao.AppSetting);
 
-                        WindowsServiceHandler.RestartService(string.Format("Movix.{0}.AlteracaoSenha.Service", roboExecucao.Sistema), 5000);
+                        WindowsServiceHandler.RestartService(string.Format("Movix.Robo.{0}.AlteracaoSenha.WindowsService", roboExecucao.Sistema), 5000);
                         ViewBag.Mensagem = string.Format("O serviço Movix.{0}.AlteracaoSenha.Service agendado para {1}",roboExecucao.Sistema,  roboExecucao.Execucao );
                     }
 

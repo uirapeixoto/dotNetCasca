@@ -22,6 +22,17 @@
                     @Html.ValidationMessageFor(model => model.Bloqueado, "", new { @class = "text-danger" })
                 </div>
             </div>
+            
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="DesbloquearUsuario">Desbloquear Usuário</label>
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.DesbloquearUsuario)
+                    @Html.ValidationMessageFor(model => model.DesbloquearUsuario, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            
         </div>
 
         <div class="form-group">
