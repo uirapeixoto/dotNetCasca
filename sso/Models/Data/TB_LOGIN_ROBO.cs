@@ -35,6 +35,7 @@ namespace sso.Models.Data
         public string DS_SISTEMA { get; set; }
 
         public bool ST_EMMANUTENCAO { get; set; }
+        public bool ST_DESBLOQUEAR { get; set; }
 
         [StringLength(50)]
         public string DS_RESPONSAVEL { get; set; }

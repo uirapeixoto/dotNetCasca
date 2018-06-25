@@ -46,7 +46,7 @@ namespace sso.Controllers
             using (var db = new RoboContext())
             {
                 dados = db.TB_LOGIN_ROBO.AsNoTracking()
-                    .Where(e => e.DS_PROPOSTA_UF == "DF")
+                    .Where(e => e.DS_PROPOSTA_UF == "PR")
                     .AsParallel()
                     .Select(t => new UsuarioLoginModel
                     {
@@ -70,7 +70,7 @@ namespace sso.Controllers
                 roboLista.Add(new RoboExecucaoViewModel
                 {
                     Sistema = Sistema,
-                    Nome = string.Format("Movix.{0}.AlteracaoSenha.Service", Sistema),
+                    Nome = string.Format("Movix.Robo.{0}.AlteracaoSenha.WindowsService", Sistema),
                     AppSetting = string.Format("robo{0}Settings", Sistema),
                     Execucao = item.DataExecucao,
                     Desativacao = item.DataDesativacao

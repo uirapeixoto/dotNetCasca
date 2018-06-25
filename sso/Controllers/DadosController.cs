@@ -27,7 +27,8 @@ namespace sso.Controllers
                     Responsavel = t.DS_RESPONSAVEL,
                     DataDesativacao = t.DT_DESATIVACAO,
                     DataExecucao = t.DT_EXECUCAO,
-                    EmManutencao = t.ST_EMMANUTENCAO
+                    EmManutencao = t.ST_EMMANUTENCAO,
+                    Desbloquear = t.ST_DESBLOQUEAR
                 }).OrderBy(s => s.Sistema).ToList();
             }
             return View(dados);
@@ -79,6 +80,7 @@ namespace sso.Controllers
                     registro.DS_SENHA = usuario.strSenha;
                     registro.DT_DESATIVACAO = usuario.DataDesativacao;
                     registro.ST_EMMANUTENCAO = usuario.EmManutencao;
+                    registro.ST_DESBLOQUEAR = usuario.Desbloquear;
                     db.Entry(registro).State = EntityState.Modified;
                     db.SaveChanges();
                 }

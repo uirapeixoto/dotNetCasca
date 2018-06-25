@@ -22,8 +22,10 @@ namespace sso.Models
         public DateTime? DataExecucao { get; set; }
         [Display(Name = "Data Desativação")]
         public DateTime? DataDesativacao { get; set; }
-        [Display(Name = "Em Manutenção")]
+        [Display(Name = "Manutenção")]
         public bool EmManutencao { get; set; }
+        [Display(Name = "Desbloquear")]
+        public bool Desbloquear { get; set; }
 
         public bool RecadastrarSenha { get; set; }
         public bool UsuarioBloqueado { get; set; }
