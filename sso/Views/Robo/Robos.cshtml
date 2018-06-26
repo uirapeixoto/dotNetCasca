@@ -45,8 +45,8 @@
                 @Html.DisplayFor(modelItem => item.Desativacao)
             </td>
             <td>
-                @Html.ActionLink(" Executar", "ExecutarRobo", new { sistema = item.Sistema }, new { @class = "glyphicon glyphicon-thumbs-up" }) |
-                @Html.ActionLink(" Configurações", "AppSettings", new { configFile = item.AppSetting}, new { @class = "glyphicon glyphicon-wrench" }) |
+                @Html.ActionLink(" Executar", "ExecutarRobo", new { sistema = item.Sistema }) |
+                @Html.ActionLink(" Configurações", "AppSettings", new { configFile = item.AppSetting}) |
             </td>
         </tr>
     }
