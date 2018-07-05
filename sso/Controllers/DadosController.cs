@@ -1,4 +1,5 @@
-﻿using sso.Models;
+﻿using sso.ActionFilter;
+using sso.Models;
 using sso.Models.Data;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,8 +9,10 @@ using System.Web.Mvc;
 
 namespace sso.Controllers
 {
+    [IncludeLayoutData]
     public class DadosController : Controller
     {
+         
         // GET: Dados
         public ActionResult Index()
         {
