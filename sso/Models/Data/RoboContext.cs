@@ -12,6 +12,12 @@ namespace sso.Models.Data
         {
         }
 
+        public RoboContext(AmbienteModel ambiente)
+            : base(string.Format("name={0}", ambiente.Context))
+        {
+
+        }
+
         public virtual DbSet<TB_LOGIN_ROBO> TB_LOGIN_ROBO { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

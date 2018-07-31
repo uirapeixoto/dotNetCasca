@@ -46,7 +46,7 @@ namespace sso.Controllers
             using (var db = new RoboContext())
             {
                 dados = db.TB_LOGIN_ROBO.AsNoTracking()
-                    .Where(e => e.DS_PROPOSTA_UF == "PR")
+                    //.Where(e => e.DS_PROPOSTA_UF == "PR")
                     .AsParallel()
                     .Select(t => new UsuarioLoginModel
                     {

@@ -2,6 +2,7 @@
 using sso.Models;
 using sso.ViewModel;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Web.Configuration;
 using System.Web.Mvc;
@@ -49,6 +50,15 @@ namespace sso.Controllers
 
         public ActionResult Menu(UsuarioLoginSicaqViewModel model)
         {
+            Dictionary<string, string> Menu = new Dictionary<string, string>();
+
+            Menu.Add("MenuServicos", "Serviços ao Cliente");
+            Menu.Add("AlteracaoSenha", "Alteração Senha de Acesso");
+            Menu.Add("Relatorio", "Relatórios");
+            Menu.Add("SolicitacoesDiversas", "Solicitações Diversas");
+
+            ViewBag.Menu = Menu;
+
             return View(model);
         }
 
@@ -113,5 +123,57 @@ namespace sso.Controllers
 
             return View(config);
         }
+
+        public ActionResult MenuServicos()
+        {
+            Dictionary<string, string> Menu = new Dictionary<string, string>();
+
+            Menu.Add("MenuNegocios", "Negócios");
+            Menu.Add("Menu", "Voltar ao Menu Incial");
+
+            ViewBag.Menu = Menu;
+
+            return View();
+        }
+
+        public ActionResult MenuNegocios()
+        {
+            Dictionary<string, string> Menu = new Dictionary<string, string>();
+
+            Menu.Add("PesquisaCadastral", "Pesquisa Cadastral");
+            Menu.Add("CadastroClientes", "Cadastro de Clientes");
+            Menu.Add("AvaliacaoRisco", "Financiamento Habitacional");
+            Menu.Add("MenuAberturaMenutencao", "Abertura e Manutenção de Conta");
+            Menu.Add("ChequeEspecialContaExiste", "Cheque Especial em Conta Existe");
+            Menu.Add("CartaoCredito", "Cartão de Crédito");
+            Menu.Add("CreditoDiretoCaixa", "CDC - Crédito Direto Caixa");
+            Menu.Add("Caonsignacao", "Consignação");
+            Menu.Add("CaixaSeguros", "Caixa Seguros");
+            Menu.Add("ConsultarFormularioEnviados", "Consulta Formulários Enviaos");
+            Menu.Add("Digitalizacao", "Digitalização");
+
+            ViewBag.Menu = Menu;
+
+            return View();
+        }
+
+        public ActionResult MenuAberturaMenutencao()
+        {
+            Dictionary<string, string> Menu = new Dictionary<string, string>();
+
+            Menu.Add("PreAberturaContaInit", "Solicita Pré-Abertura de Conta/Cheque Especial");
+            Menu.Add("MenuNegocios", "Voltar ao Menu Negócios");
+
+            ViewBag.Menu = Menu;
+            return View();
+        }
+
+        public ActionResult PreAberturaContaInit()
+        {
+
+            return View();
+        }
     }
+
+
 }

@@ -1,8 +1,4 @@
-﻿
-@{
-    ViewBag.Title = "MenuPrincipal";
-}
-<style>
+﻿<style>
     body, a, span, td, p, label {
         font-family: Arial;
         font-size: 13px;
@@ -67,7 +63,6 @@
         text-align: center;
         text-decoration: none;
         margin-right: 3px;
-        
     }
 
     a:link {
@@ -111,32 +106,19 @@
                 </tr>
             </tbody>
         </table>
-
         <table id="menu-principal" cellspacing="0" align="center" border="0">
-
             <tbody>
+                @foreach (KeyValuePair<string, string> menu in ViewBag.Menu as Dictionary<string, string>)
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(menu.Value, menu.Key, null, new { @class = "btn-azul", @title = menu.Value })
+                        </td>
+                    </tr>
+                }
                 <tr>
                     <td>
-                        @Html.ActionLink("Negócios", "MenuSevicos", new { @class="btn-azul"})
-                        <a href="#" class="btn-azul" title="Serviços ao Cliente">Serviços ao Cliente</a>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <a href="#" class="btn-azul" title="Alteração Senha de Acesso">Alteração Senha de Acesso</a>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <a href="#" class="btn-azul" title="Relatórios">Relatórios</a>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <a href="#" class="btn-azul" title="Solicitações Diversas">Solicitações Diversas</a>
+                        <a href="#" class="btn-azul" title="Alteração Senha de Acesso">Voltar ao Menu Inicial</a>
                     </td>
                 </tr>
                 <tr>
@@ -162,11 +144,8 @@
                         <font>Sistema</font>
                     </td>
                 </tr>
-
             </tbody>
         </table>
-
     </center>
-
 </form>
 

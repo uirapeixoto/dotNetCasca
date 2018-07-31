@@ -12,7 +12,7 @@ namespace sso.Controllers
     [IncludeLayoutData]
     public class DadosController : Controller
     {
-         
+
         // GET: Dados
         public ActionResult Index()
         {
@@ -35,6 +35,13 @@ namespace sso.Controllers
                 }).OrderBy(s => s.Sistema).ToList();
             }
             return View(dados);
+        }
+
+        [HttpPost]
+        public ActionResult Index(AmbienteModel ambiente)
+        {
+
+            return View();
         }
 
         [HttpPost]

@@ -1,0 +1,170 @@
+﻿
+@{
+    ViewBag.Title = "PreAberturaContaInit";
+}
+
+<head>
+    <title></title>
+    <style>
+        #div-container {
+            margin: auto;
+            width: 800px;
+            overflow: hidden;
+        }
+
+        body, a, span, td, p, label {
+            font-family: Arial;
+            font-size: 13px;
+            color: #444444;
+        }
+
+        .titaplicacoes {
+            color: #ec801c;
+            font-family: Arial,Helvetica,sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            float: left;
+            width: 600px;
+        }
+
+        .tb-cinza, .tbForm, .tbBotoes, .botoes {
+            background: none repeat scroll 0 0 #F0F0F0;
+            width: 597px;
+            border-spacing: 0px;
+            border-collapse: collapse;
+            float: left;
+            margin: 7px auto;
+        }
+
+        #div-container table, #div-container div.nav-btn {
+            float: left;
+        }
+
+        table tbody tr td {
+            padding: 3px;
+        }
+
+        .ordenar, .header, .titulo, .msg {
+            background: #1F4780;
+            color: #ffffff;
+            font: bolder 13 Arial;
+            text-align: center;
+            vertical-align: middle;
+            font-weight: bold;
+        }
+
+        .tbBranco tr td, .tbForm tr td, .tb-cinza tr td, .tbBranca tr td, .tbBrancoRendas tr td {
+            padding: 4px 2px 4px 8px;
+            height: 22px;
+            line-height: 22px;
+        }
+
+        .tbForm tr td, .tbBranco tr td, .tbBranca tr td, .tbBrancoRendas tr td {
+            padding: 2px 2px 2px 8px;
+            border: 1px solid #708090;
+            font-size: 12px;
+        }
+
+        input[type='text'], input[type='password'], select {
+            padding-left: 4px;
+            border-bottom: 1px solid #CCCCCC;
+            border-right: 1px solid #CCCCCC;
+            border-radius: 3px;
+            height: 20px;
+            font: 14px Arial;
+            height: 22px;
+            width: 180px;
+        }
+
+        a {
+            font: 12px Arial, Helvetica, sans-serif;
+            text-decoration: underline;
+        }
+
+        .btn-azul {
+            background: url("./images/botao/btnFundoAzulInterno.png") repeat-x;
+            border: 1px solid #355D96;
+            border-radius: 4px;
+            color: #ffffff !important;
+            display: inline-block;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 3px 12px;
+            text-align: center;
+            text-decoration: none;
+            margin-right: 3px;
+        }
+
+        a:link {
+            color: #808080;
+        }
+
+        #nomeCompleto {
+            width: 300px;
+        }
+
+        .tbBranco tr td.header, .tbForm tr td.header, .tb-cinza tr td.header, .tbBranca tr td.header, .tbBrancoRendas tr td.header {
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body bgcolor="#ffffff">
+    <center>
+        <div id="div-container">
+            <div id="div-content" style="display: block;  float: left;  width: 600px;">
+
+                <form name="main" onsubmit="JavaScript:return validate();" action="/caixaaqui/CaixaAquiController/pre_abertura_conta/pre_abertura_conta_dados_endereco" method="post">
+                    <h1 class="titaplicacoes">Informe os dados do cliente</h1>
+                    <table class="tbForm" style="border-color: #808080" border="1" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <td width="600" class="header" colspan="4">Dados do Cliente</td>
+                            </tr>
+                            <tr>
+                                <td width="141">CPF do Cliente</td>
+                                <td width="285" colspan="3">
+                                    <input name="numeroCpf" id="numeroCpf" onkeypress="JavaScript:return apenasNumeros(this, event);" onchange="JavaScript:limpar();" type="text" size="13" maxlength="11" value="">
+                                    <a title="Consultar" class="btn-azul" href="JavaScript:consultaCPF();">Consultar</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="141">Nome do Cliente</td>
+                                <td width="285" colspan="3">
+                                    <input name="nomeCompleto" disabled="disabled" id="nomeCompleto" type="text" size="32" maxlength="70" value="">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="141" style="text-align:left">Tipo de Conta</td>
+                                <td width="285" style="text-align:left" colspan="3">
+                                    <select name="tipoContaIndividualConjunta" id="tipoContaIndividualConjunta" onchange="exibeSegundoTitular()" size="1">
+                                        <option value="0" selected=""></option>
+                                        <option value="1">Individual</option>
+                                        <option value="2">Conjunta Solidária</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="tbForm" id="tblSegundoTitular" style="border-color: rgb(128, 128, 128); display: none;" border="1" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <td width="141" style="text-align:left">CPF do Segundo Titular</td>
+                                <td width="285" style="text-align:left" colspan="3">
+                                    <input name="numeroCpf2" id="numeroCpf2" onkeypress="JavaScript:return apenasNumeros(this, event);" type="text" size="13" maxlength="11" value="">
+
+                                    <a title="Consultar" class="btn-azul" href="JavaScript:consultaCPF2();">Consultar</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="141" style="text-align:left">Nome do Segundo Titular</td>
+                                <td width="285" colspan="3">
+                                    <input name="nomeSegundoTitular" disabled="disabled" id="nomeSegundoTitular" type="text" size="32" maxlength="70" value="">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </center>
