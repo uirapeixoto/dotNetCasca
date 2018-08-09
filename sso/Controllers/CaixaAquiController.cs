@@ -13,7 +13,7 @@ namespace sso.Controllers
     {
         private bool _bloqueado;
         private bool _desbloquearUsuario;
-        
+
         // GET: CaixaAqui
         public ActionResult Index()
         {
@@ -24,7 +24,7 @@ namespace sso.Controllers
         [HttpPost]
         public ActionResult Index(UsuarioLoginSicaqViewModel model)
         {
-            if(!bool.TryParse(ConfigurationManager.AppSettings.Get("SicaqUsuarioBloqueado"), out _bloqueado))
+            if (!bool.TryParse(ConfigurationManager.AppSettings.Get("SicaqUsuarioBloqueado"), out _bloqueado))
             {
                 _bloqueado = false;
             }
@@ -108,7 +108,7 @@ namespace sso.Controllers
             {
                 config.Bloqueado = config.Bloqueado;
                 var currentconfig = WebConfigurationManager.OpenWebConfiguration("~");
-                XmlHandler.WriteSetting(currentconfig,"SicaqUsuarioBloqueado", config.Bloqueado.ToString());
+                XmlHandler.WriteSetting(currentconfig, "SicaqUsuarioBloqueado", config.Bloqueado.ToString());
                 XmlHandler.WriteSetting(currentconfig, "SicaqDesbloquearUsuario", config.DesbloquearUsuario.ToString());
                 //XmlHandler.SetWebAppSettings(currentconfig,"SicaqUsuarioBloqueado", config.Bloqueado.ToString());
                 ViewBag.Mensagem = "Registro alterado com sucesso.";
@@ -170,9 +170,51 @@ namespace sso.Controllers
 
         public ActionResult PreAberturaContaInit()
         {
+            var dadosCliente = new DadosClienteManutencaoContaModel();
+            return View(dadosCliente);
+        }
+
+        [HttpPost]
+        public ActionResult PreAberturaContaInit(DadosClienteManutencaoContaModel dadosCliente)
+        {
+            return View(dadosCliente);
+        }
+
+        public ActionResult PreAberturaConstaConsCPF()
+        {
+            var dadosCliente = new DadosClienteManutencaoContaModel();
+            dadosCliente.numeroCpf = "38524786850";
+            dadosCliente.nomeCompleto = "FABIO DA SILVA AYASHI";
+            dadosCliente.tipoContaIndividualConjunta = Models.Enum.TipoContaEnum.Individual;
+
+            return View(dadosCliente);
+        }
+
+        public ActionResult PreAberturaContaDadosEndereco(DadosClienteManutencaoContaModel dadosCliente)
+        {
+            dadosCliente.endereco = "R JULIO PINHEIRO";
+            dadosCliente.uf = "SP";
+            dadosCliente.municipio = "SAO PAULO";
+
+            return View(dadosCliente);
+        }
+
+        [HttpPost]
+        public ActionResult PreAberturaConstaConsCPF(DadosClienteManutencaoContaModel dadosCliente)
+        {
+
+            return View(dadosCliente);
+        }
+
+        public ActionResult PreAberturaContaDadosProposta()
+        {
+            var proposta = new DadosPropostaModel();
+
 
             return View();
         }
+
+
     }
 
 

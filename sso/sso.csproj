@@ -168,10 +168,21 @@
     </Compile>
     <Compile Include="Helper\WindowsServiceHandler.cs" />
     <Compile Include="Helper\XmlHandler.cs" />
+    <Compile Include="Migrations\201808091331380_estruturaInicial.cs" />
+    <Compile Include="Migrations\201808091331380_estruturaInicial.Designer.cs">
+      <DependentUpon>201808091331380_estruturaInicial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AmbienteModel.cs" />
     <Compile Include="Models\CiwebUsuarioConfigModel.cs" />
+    <Compile Include="Models\DadosClienteManutencaoConta.cs" />
+    <Compile Include="Models\DadosPropostaModel.cs" />
     <Compile Include="Models\Data\RoboContext.cs" />
     <Compile Include="Models\Data\TB_LOGIN_ROBO.cs" />
+    <Compile Include="Models\Enum\TipoCartaoEnum.cs" />
+    <Compile Include="Models\Enum\TipoContaBancariaEnum.cs" />
+    <Compile Include="Models\Enum\TipoContaEnumn.cs" />
+    <Compile Include="Models\Mensagem.cs" />
     <Compile Include="Models\SicaqUsuarioConfigModel.cs" />
     <Compile Include="Models\UsuarioCiwebLoginModel.cs" />
     <Compile Include="Models\UsuarioLoginModel.cs" />
@@ -261,6 +272,7 @@
     <Content Include="Views\Shared\_PartialMenu.cshtml" />
     <Content Include="Views\CaixaAqui\MenuAberturaMenutencao.cshtml" />
     <Content Include="Views\CaixaAqui\PreAberturaContaInit.cshtml" />
+    <Content Include="Views\CaixaAqui\PreAberturaContaDadosProposta.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -277,6 +289,11 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201808091331380_estruturaInicial.resx">
+      <DependentUpon>201808091331380_estruturaInicial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
