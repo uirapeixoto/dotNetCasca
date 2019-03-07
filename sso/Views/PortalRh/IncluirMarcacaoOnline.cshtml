@@ -1,0 +1,157 @@
+﻿
+<style>
+    .Tudo, .Espaco, .Fundo, .Painel {
+        font-family: Verdana,Arial,Sans-Serif;
+        font-size: 8pt;
+        font-weight: normal;
+        color: #000000;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .Tudo {
+        background-color: #ffffff;
+    }
+
+    .TextoNormal, .TextoNormalCentro {
+        font-size: 8pt;
+    }
+
+    .BotaoAchatado, .BotaoRealcado {
+        vertical-align: middle;
+        font-size: 8pt;
+        font-family: Verdana,Sans-Serif;
+    }
+
+    .Campo, .CampoNegativo, .CampoLista, .CampoCentro, .CampoReadOnly {
+        font-size: 11px;
+        background-color: #ffffff;
+        border: 1px solid #000000;
+        vertical-align: middle;
+    }
+
+    .CampoCentro {
+        text-align: center;
+    }
+
+    .CorLista {
+        background-color: #d9e8f0;
+        color: #000000;
+        font-size: 8pt;
+    }
+
+    .Campo, .CampoNegativo, .CampoLista, .CampoReadOnly {
+        text-align: left;
+    }
+
+    .Campo, .CampoNegativo, .CampoReadOnly {
+        padding-right: 2px;
+        padding-left: 2px;
+    }
+
+    #TopoEspecifico {
+        background-image: url("../img/barra_top_800.jpg");
+        background-repeat: no-repeat;
+        background-color: #adc7d6;
+        padding: 13px;
+        padding-bottom: 12px;
+        padding-left: 110px;
+        font-family: Verdana;
+        font-size: 14px;
+        letter-spacing: 2px;
+        color: #ffffff;
+        text-align: left;
+        border: 0px solid #FFFFFF;
+    }
+</style>
+
+<div class="Tudo">
+    <form name="form1" id="Form1" action="IncluirMarcacaoOnLine.asp" method="post">
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+                <tr>
+                    <td>
+                        <div id="TopoEspecifico">Marcação do Ponto</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <br>
+        <br>
+        <table width="450" height="33" align="center" class="TextoNormal" border="0" cellspacing="0" cellpadding="0">
+
+            <tbody>
+                <tr>
+                    <td width="450" valign="baseline">
+                        <font face="Verdana" size="2">&nbsp;</font>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="450" valign="baseline">
+                        <font face="Verdana" size="2">&nbsp;</font>
+                    </td>
+                </tr>
+                <tr valign="center" bgcolor="#ffffff">
+                    <td width="450" height="19" class="CorLista" valign="bottom">
+                        <font color="#000000" face="Verdana" size="2">&nbsp;Nome</font>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="450" valign="baseline">
+                        <input name="txtNome" class="Campo" onfocus="this.blur()" type="text" size="75" maxlength="30" readonly="readonly" value="UIRA PEIXOTO DE OLIVEIRA">
+                    </td>
+                </tr>
+                <tr>
+                    <td width="450" valign="baseline">
+                        <font face="Verdana" size="2">&nbsp;</font>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="450" valign="baseline">
+                        <font face="Verdana" size="2">&nbsp;</font>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="450" height="19" class="CorLista" valign="bottom">
+                        <font color="#000000" face="Verdana" size="2">&nbsp;Data e Hora</font>
+                    </td>
+                </tr>
+                <tr>
+
+                    <td width="450" valign="baseline">
+                        <input name="txt_OpcAltera" id="txt_OpcAltera" type="hidden" value="F">
+                        <input name="txt_CodSeguranca" id="txt_CodSeguranca" type="hidden" value="6979B55AC245ABA0E14C5FF9A4A81504B0E3BB56">
+
+                        <input name="data" class="CampoCentro" id="data" onfocus="this.blur()" type="text" size="13" maxlength="10" readonly="readonly" value="06/03/2019">&nbsp;
+                        <input name="hora" class="CampoCentro" onfocus="this.blur()" type="text" size="8" maxlength="5" readonly="readonly" value="12:40">
+
+                    </td>
+                </tr>
+                <tr>
+                    <td width="450" valign="baseline">
+                        <font face="Verdana" size="2">&nbsp;</font>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td width="450" valign="baseline">
+                        <font face="Verdana" size="2">&nbsp;</font>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="middle">
+
+                        <input name="Submit" class="BotaoAchatado" id="Button1" onclick="javascript: gravaMarcacao();" type="button" value="       OK       ">&nbsp;&nbsp;
+
+                        <input name="Submit2" class="BotaoAchatado" id="Button2" onclick="javascript: window.close()" type="button" value="   Fechar   ">
+                    </td>
+                </tr>
+
+                <input name="Gravado" type="hidden" value="0" />
+            </tbody>
+        </table>
+    </form>
+</div>

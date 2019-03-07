@@ -160,6 +160,7 @@
     <Compile Include="Controllers\CaixaAquiController.cs" />
     <Compile Include="Controllers\DadosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PortalRhController.cs" />
     <Compile Include="Controllers\RoboController.cs" />
     <Compile Include="Controllers\SsoController.cs" />
     <Compile Include="Enum\AmbienteEnum.cs" />
@@ -177,12 +178,14 @@
     <Compile Include="Models\UsuarioLoginModel.cs" />
     <Compile Include="Models\UsuarioLoginPage.cs" />
     <Compile Include="Models\UsuarioLoginSicaqModel.cs" />
+    <Compile Include="Models\UsuarioPortalRh.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\CiwebUsuarioConfigViewModel.cs" />
     <Compile Include="ViewModel\MenuListViewModel.cs" />
     <Compile Include="ViewModel\RoboExecucaoViewModel.cs" />
     <Compile Include="ViewModel\UsuarioLoginGenericoModel.cs" />
     <Compile Include="ViewModel\UsuarioLoginSicaqAlteracaoSenhaViewModel.cs" />
+    <Compile Include="ViewModel\UsuarioConfigPortalRhViewModel.cs" />
     <Compile Include="ViewModel\UsuarioLoginSicaqViewModel.cs" />
     <Compile Include="ViewModel\xmlAppSettingsModel.cs" />
   </ItemGroup>
@@ -261,6 +264,10 @@
     <Content Include="Views\Shared\_PartialMenu.cshtml" />
     <Content Include="Views\CaixaAqui\MenuAberturaMenutencao.cshtml" />
     <Content Include="Views\CaixaAqui\PreAberturaContaInit.cshtml" />
+    <Content Include="Views\PortalRh\Index.cshtml" />
+    <Content Include="Views\PortalRh\UsuarioConfig.cshtml" />
+    <Content Include="Views\PortalRh\IncluirMarcacaoOnline.cshtml" />
+    <Content Include="Views\PortalRh\Auto_Principal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
