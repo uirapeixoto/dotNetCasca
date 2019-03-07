@@ -1,4 +1,5 @@
-﻿
+﻿@model sso.Models.DadosClienteManutencaoContaModel
+
 @{
     ViewBag.Title = "PreAberturaContaInit";
 }
@@ -109,62 +110,63 @@
         }
     </style>
 </head>
-<body bgcolor="#ffffff">
-    <center>
-        <div id="div-container">
-            <div id="div-content" style="display: block;  float: left;  width: 600px;">
+<center>
+    <div id="div-container">
+        <div id="div-content" style="display: block;  float: left;  width: 600px;">
+            <h1 class="titaplicacoes">Informe os dados do cliente</h1>
 
-                <form name="main" onsubmit="JavaScript:return validate();" action="/caixaaqui/CaixaAquiController/pre_abertura_conta/pre_abertura_conta_dados_endereco" method="post">
-                    <h1 class="titaplicacoes">Informe os dados do cliente</h1>
-                    <table class="tbForm" style="border-color: #808080" border="1" cellspacing="0">
-                        <tbody>
-                            <tr>
-                                <td width="600" class="header" colspan="4">Dados do Cliente</td>
-                            </tr>
-                            <tr>
-                                <td width="141">CPF do Cliente</td>
-                                <td width="285" colspan="3">
-                                    <input name="numeroCpf" id="numeroCpf" onkeypress="JavaScript:return apenasNumeros(this, event);" onchange="JavaScript:limpar();" type="text" size="13" maxlength="11" value="">
-                                    <a title="Consultar" class="btn-azul" href="JavaScript:consultaCPF();">Consultar</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td width="141">Nome do Cliente</td>
-                                <td width="285" colspan="3">
-                                    <input name="nomeCompleto" disabled="disabled" id="nomeCompleto" type="text" size="32" maxlength="70" value="">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td width="141" style="text-align:left">Tipo de Conta</td>
-                                <td width="285" style="text-align:left" colspan="3">
-                                    <select name="tipoContaIndividualConjunta" id="tipoContaIndividualConjunta" onchange="exibeSegundoTitular()" size="1">
-                                        <option value="0" selected=""></option>
-                                        <option value="1">Individual</option>
-                                        <option value="2">Conjunta Solidária</option>
-                                    </select>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="tbForm" id="tblSegundoTitular" style="border-color: rgb(128, 128, 128); display: none;" border="1" cellspacing="0">
-                        <tbody>
-                            <tr>
-                                <td width="141" style="text-align:left">CPF do Segundo Titular</td>
-                                <td width="285" style="text-align:left" colspan="3">
-                                    <input name="numeroCpf2" id="numeroCpf2" onkeypress="JavaScript:return apenasNumeros(this, event);" type="text" size="13" maxlength="11" value="">
-
-                                    <a title="Consultar" class="btn-azul" href="JavaScript:consultaCPF2();">Consultar</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td width="141" style="text-align:left">Nome do Segundo Titular</td>
-                                <td width="285" colspan="3">
-                                    <input name="nomeSegundoTitular" disabled="disabled" id="nomeSegundoTitular" type="text" size="32" maxlength="70" value="">
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </form>
-            </div>
+            @using (Html.BeginForm("PreAberturaConstaConsCPF", null, FormMethod.Post))
+            {
+                <table class="tbForm" style="border-color: #808080" border="1" cellspacing="0">
+                    <tbody>
+                        <tr>
+                            <td width="600" class="header" colspan="4">Dados do Cliente</td>
+                        </tr>
+                        <tr>
+                            <td width="141">CPF do Cliente</td>
+                            <td width="285" colspan="3">
+                                @Html.EditorFor(m => m.numeroCpf)
+                                <input type="button" name="Consultar" class="btn-azul" value="Consultar" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="141">Nome do Cliente</td>
+                            <td width="285" colspan="3">
+                                @Html.EditorFor(m => m.nomeCompleto, new { @value = "FABIO DA SILVA AYASHI" , @disabled = "disabled" })
+                                <input name="nomeCompleto" disabled="disabled" id="nomeCompleto" type="text" size="32" maxlength="70" value="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="141" style="text-align:left">Tipo de Conta</td>
+                            <td width="285" style="text-align:left" colspan="3">
+                                <select name="tipoContaIndividualConjunta" id="tipoContaIndividualConjunta" size="1">
+                                    <option value="0" selected=""></option>
+                                    <option value="1">Individual</option>
+                                    <option value="2">Conjunta Solidária</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="tbForm" id="tblSegundoTitular" style="border-color: rgb(128, 128, 128); display: none;" border="1" cellspacing="0">
+                    <tbody>
+                        <tr>
+                            <td width="141" style="text-align:left">CPF do Segundo Titular</td>
+                            <td width="285" style="text-align:left" colspan="3">
+                                @Html.EditorFor(m => m.numeroCpf2)
+                                <a title="Consultar" class="btn-azul" href="JavaScript:consultaCPF2();">Consultar</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="141" style="text-align:left">Nome do Segundo Titular</td>
+                            <td width="285" colspan="3">
+                                @Html.EditorFor(m => m.nomeSegundoTitular, new { @disable = "disable"})
+                                <input name="nomeSegundoTitular" disabled="disabled" id="nomeSegundoTitular" type="text" size="32" maxlength="70" value="">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            }
         </div>
-    </center>
+    </div>
+</center>

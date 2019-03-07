@@ -14,8 +14,13 @@ namespace sso.ActionFilter
 
         private string GetUserName()
         {
-            string firstName = _user.Split('.')[0].Trim();
-            string secondName = _user.Split('.')[1].Trim();
+            string firstName = "Prezado";
+            string secondName = "Visitante";
+            if (_user.Contains("."))
+            {
+                firstName = _user.Split('.')[0].Trim();
+                secondName = _user.Split('.')[1].Trim();
+            }
 
             return string.Format("{0} {1}", char.ToUpper(firstName[0]) + firstName.Substring(1), char.ToUpper(secondName[0]) + secondName.Substring(1));
         }

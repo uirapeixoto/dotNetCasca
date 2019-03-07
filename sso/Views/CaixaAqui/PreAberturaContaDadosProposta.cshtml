@@ -1,0 +1,275 @@
+﻿@model sso.Models.DadosPropostaModel
+
+@{
+    ViewBag.Title = "PreAberturaContaDadosProposta";
+}
+<style>
+    #div-container {
+        margin: auto;
+        width: 800px;
+        overflow: hidden;
+    }
+
+    body, a, span, td, p, label {
+        font-family: Arial;
+        font-size: 13px;
+        color: #444444;
+    }
+
+    .titaplicacoes {
+        color: #ec801c;
+        font-family: Arial,Helvetica,sans-serif;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+        float: left;
+        width: 600px;
+    }
+
+    .tb-cinza, .tbForm, .tbBotoes, .botoes {
+        background: none repeat scroll 0 0 #F0F0F0;
+        width: 597px;
+        border-spacing: 0px;
+        border-collapse: collapse;
+        float: left;
+        margin: 7px auto;
+    }
+
+    #div-container table, #div-container div.nav-btn {
+        float: left;
+    }
+
+    p, font, label, span {
+        font: 12px Arial;
+    }
+
+    table tbody tr td {
+        padding: 3px;
+    }
+
+    .explicaCampo, .RetornoValores, .ListacorA, .ListacorB, .ListacorAvalor, .ListacorBvalor, .valorAplicacao, .valorAplicacaoDir, .valorAplicacaoEsq {
+        color: #000000;
+        font: 13px Arial;
+    }
+
+    .valorAplicacao {
+        background: #F0F0F0;
+        font: 13px Arial;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .ordenar, .header, .titulo, .msg {
+        background: #1F4780;
+        color: #ffffff;
+        font: bolder 13 Arial;
+        text-align: center;
+        vertical-align: middle;
+        font-weight: bold;
+    }
+
+    .tbBranco tr td, .tbForm tr td, .tb-cinza tr td, .tbBranca tr td, .tbBrancoRendas tr td {
+        padding: 4px 2px 4px 8px;
+        height: 22px;
+        line-height: 22px;
+    }
+
+    .tbForm tr td, .tbBranco tr td, .tbBranca tr td, .tbBrancoRendas tr td {
+        padding: 2px 2px 2px 8px;
+        border: 1px solid #708090;
+        font-size: 12px;
+    }
+
+    input[type='text'], input[type='password'], select {
+        padding-left: 4px;
+        border-bottom: 1px solid #CCCCCC;
+        border-right: 1px solid #CCCCCC;
+        border-radius: 3px;
+        height: 20px;
+        font: 14px Arial;
+        height: 22px;
+        width: 180px;
+    }
+
+    input.txtDadosProposta {
+        width: 145px;
+    }
+
+    select, input#nrConta {
+        width: 240px;
+    }
+
+    a {
+        font: 12px Arial, Helvetica, sans-serif;
+        text-decoration: underline;
+    }
+
+    .btn-azul {
+        background: url("./images/botao/btnFundoAzulInterno.png") repeat-x;
+        border: 1px solid #355D96;
+        border-radius: 4px;
+        color: #ffffff !important;
+        display: inline-block;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 3px 12px;
+        text-align: center;
+        text-decoration: none;
+        margin-right: 3px;
+    }
+
+    a:link {
+        color: #808080;
+    }
+    .tbBranco tr td.header, .tbForm tr td.header, .tb-cinza tr td.header, .tbBranca tr td.header, .tbBrancoRendas tr td.header {
+        font-size: 13px;
+    }
+</style>
+
+@using (Html.BeginForm(null, null, FormMethod.Post))
+{
+    <form name="main" onsubmit="JavaScript:return validate();" action="/caixaaqui/CaixaAquiController/pre_abertura_conta/pre_abertura_conta_gravar_proposta" method="post">
+        <center>
+            <div id="div-container">
+                <div id="div-content" style="display: block;  float: left;  width: 600px;">
+
+
+
+                    <h1 class="titaplicacoes">Dados da Proposta</h1>
+
+                    <table class="tbForm" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <td class="header" colspan="4">Dados da Proposta</td>
+                            </tr>
+                            <tr>
+                                <td class="valorAplicacao" style="width: 200px;">Selecione o Tipo de Conta</td>
+                                <td class="valorAplicacao" style="text-align: left; width: 400px;" colspan="3">
+                                    <select name="tipoConta" id="tipoConta" onchange="JavaScript:alterarTipoConta();" size="1">
+
+                                        <option value=""></option>
+
+                                        <option selected="selected" value="1">Corrente PF</option>
+
+                                        <option value="12">Crédito Imobiliário</option>
+
+                                        <option value="13">Conta Poupança</option>
+
+                                    </select>
+
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="valorAplicacao" style="width: 200px;">Selecione o Tipo de Cartão</td>
+                                <td class="valorAplicacao" style="text-align: left; width: 400px;" colspan="3">
+                                    <select name="tipoCartao" id="tipoCartao" onchange="" size="1">
+
+                                        <option selected="selected" value=""></option>
+
+                                        <option value="1">Débito Maestro</option>
+
+                                        <option value="3">Débito VISA Electron</option>
+
+                                    </select>
+
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="valorAplicacao" style="width: 200px;">Conta com Cheque Especial</td>
+                                <td class="valorAplicacao" style="text-align: left; width: 400px;" colspan="3">
+                                    <select name="contaCCheque" id="contaCCheque" onchange="JavaScript:alterarContaEspecial();" size="1">
+
+                                        <option selected="selected" value=""></option>
+
+                                        <option value="S">Sim</option>
+
+                                        <option value="N">Não</option>
+
+                                    </select>
+
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="valorAplicacao" style="width: 200px;">Valor de limite CHEQUE ESPECIAL - R$</td>
+                                <td class="valorAplicacao" style="text-align: left; width: 150px;">
+                                    <input name="chequeEspecial" class="txtDadosProposta" id="chequeEspecial" onkeydown="Formata(this,16,event,2)" onchange="JavaScript:validarLimite();" type="text" size="11" maxlength="13" value="">
+                                </td>
+                                <td class="valorAplicacao" style="width: 85px;">Prazo:</td>
+                                <td class="valorAplicacao" style="width: 150px;">
+                                    <input disabled="disabled" class="txtDadosProposta" type="text" size="8" maxlength="8" value="">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="valorAplicacao" style="width: 200px;">Adiantamento a Depositante - ADEP</td>
+                                <td class="valorAplicacao" style="text-align: left; width: 400px;" colspan="3">
+                                    <input name="adep" id="adepSIM" type="radio" checked="checked" value="true">&nbsp;&nbsp;&nbsp;<b>SIM</b>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <input name="adep" id="adepNAO" type="radio" value="false">&nbsp;&nbsp;&nbsp;<b>NÃO</b>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td class="tdtab12C" style="width: 200px; text-align: center;">
+                                    <a title="Gerar Nr Conta" class="btn-azul" href="JavaScript:gerarNrConta();">
+                                        Gerar Nº Conta
+                                    </a>
+                                    <br>
+                                    <span id="spanMensagem1" style="display: none; margin-top: 8px;">
+                                        Gerando número da conta. Aguarde...
+                                    </span>
+                                </td>
+                                <td class="valorAplicacao" style="text-align: left;" colspan="3">
+                                    <input name="nrConta" disabled="disabled" id="nrConta" type="text" size="20" value="">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="valorAplicacao" style="width: 200px;">Taxa Mensal de Juros </td>
+                                <td class="valorAplicacao" style="width: 150px;">
+
+                                    <input disabled="disabled" class="txtDadosProposta" type="text" size="5" maxlength="6" value="">
+
+
+                                </td>
+                                <td class="valorAplicacao" style="width: 85px;">Taxa Anual de Juros </td>
+                                <td class="valorAplicacao" style="width: 150px;">
+
+                                    <input disabled="disabled" class="txtDadosProposta" type="text" size="5" maxlength="6" value="">
+
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="valorAplicacao" style="width: 200px;">CET Mensal </td>
+                                <td class="valorAplicacao" style="width: 150px;">
+
+                                    <input disabled="disabled" class="txtDadosProposta" type="text" size="5" maxlength="6" value="">
+
+
+                                </td>
+                                <td class="valorAplicacao" style="width: 85px;">CET Anual </td>
+                                <td class="valorAplicacao" style="width: 150px;">
+
+                                    <input disabled="disabled" class="txtDadosProposta" type="text" size="5" maxlength="6" value="">
+
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <span id="spanMensagemAdep" style="display: none; margin-top: 8px;">
+                        *Obrigatória a adesão de ADEP para contas com Cheque Especial
+                    </span>
+
+
+
+                </div>
+            </div>
+        </center>
+    </form>
+}
+
